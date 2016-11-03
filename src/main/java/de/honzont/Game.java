@@ -8,9 +8,23 @@ public class Game {
     Player[] players = new Player[0];
     Round[] rounds = new Round[0];
 
-    public static void Game() {
-        System.out.println("Starting Game ...");
+    public Game() {
+        System.out.println("BlackJack > Starting Game ...");
 
     }
+    public static void startMenu() {}
 
+    public void startRound() {}
+
+    public void addPlayer() {}
+
+    public void removePlayer() {}
+
+    public void showPlayerStats() {}
+
+    public void quitGame() {
+        gameIsActive = false;
+        System.out.println("BlackJack > Good Game, Bye");
+
+    }
 }

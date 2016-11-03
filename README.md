@@ -1,3 +1,3 @@
 # BlackJack
 
-Portierung meiner Pythonversion
+Portierung und Verbesserung meiner Pythonversion

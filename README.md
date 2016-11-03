@@ -1,0 +1,3 @@
+# BlackJack
+
+Portierung meiner Pythonversion

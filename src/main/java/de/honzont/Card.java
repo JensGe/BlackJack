@@ -1,5 +1,7 @@
 package main.java.de.honzont;
 
+import org.junit.runners.Parameterized;
+
 /**
  * Created by Gäbeler on 03.11.2016.
  */
@@ -7,7 +9,11 @@ public class Card {
     private String name;
     private Integer value;
 
-
+    /**
+     *
+     * @param name card name
+     * @param value value of card
+     */
     public Card(String name, Integer value) {
         this.name = name;
         this.value = value;

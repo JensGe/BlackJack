@@ -1,7 +1,5 @@
 package main.java.de.honzont;
 
-import org.junit.runners.Parameterized;
-
 /**
  * Created by Gäbeler on 03.11.2016.
  */

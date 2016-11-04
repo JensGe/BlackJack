@@ -6,6 +6,10 @@ package main.java.de.honzont;
 public class CardDeck {
     private Card[] deck;
 
+    /**
+     * Card Deck Content Creation
+     *
+     */
     public CardDeck() {
         this.deck = new Card[52];
         this.deck[0] = new Card("Two of Diamonds", 2);

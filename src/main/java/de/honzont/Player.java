@@ -1,5 +1,6 @@
 package main.java.de.honzont;
 
+import java.util.ArrayList;
 /**
  * Created by Gäbeler on 03.11.2016.
  */
@@ -7,15 +8,29 @@ public class Player {
     private Integer bankroll;
     private String name;
     private Boolean isDealer = false;
-    private Card[] hand = new Card[0];
+    private ArrayList<Card> hand = new ArrayList<>();
     private Integer bet = 0;
 
-    public Integer getHandValue() {
-        Integer handValue = 0;
-        /*TODO HandValue Calculation*/
-        return handValue;
+
+
+    public Player(String name,Integer bankroll) {
+        this.name = name;
+        this.bankroll = bankroll;
     }
 
+    public Player() {
+        this.name = "Dealer";
+        this.isDealer = true;
+        this.bankroll = 0;
+    }
+
+    public Integer getHandValue(Card[] hand) {
+        Integer handValue = 0;
+        for (int i=0;i<hand.length;i++) {
+            handValue += hand[i].getValue();
+        }
+        return handValue;
+    }
     /* Standard Getter & Setter */
     public Integer getBankroll() {
         return bankroll;
@@ -35,10 +50,10 @@ public class Player {
     public void setDealer(Boolean dealer) {
         isDealer = dealer;
     }
-    public Card[] getHand() {
+    public ArrayList<Card> getHand() {
         return hand;
     }
-    public void setHand(Card[] hand) {
+    public void setHand(ArrayList<Card> hand) {
         this.hand = hand;
     }
     public Integer getBet() {

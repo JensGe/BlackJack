@@ -10,7 +10,7 @@ public class Main{
     public static void main(String[] args) {
         Game blackjack = new Game();
         while (blackjack.gameIsActive) {
-            String menuSelection = Game.gameMenu();
+            String menuSelection = Game.selectGameMenuOption();
             runSelection(menuSelection, blackjack);
         }
         scanner.close();

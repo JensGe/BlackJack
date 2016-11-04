@@ -5,17 +5,18 @@ import java.util.Scanner;
 /**
  * Created by Gäbeler on 03.11.2016.
  */
-class Game {
-    Boolean gameIsActive = true;
+class Game extends Main{
+    Boolean gameIsActive;
 
     ArrayList<Player> players = new ArrayList<>();
     ArrayList<Round> rounds = new ArrayList<>();
 
     Game() {
         System.out.println("BlackJack > Starting Game ...");
+        gameIsActive = true;
     }
 
-    static String gameMenu() {
+    static String selectGameMenuOption() {
         Scanner scanner = new Scanner(System.in);
         String menuSelection;
         System.out.println("BlackJack > *******************");

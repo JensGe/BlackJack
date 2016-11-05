@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by Jens on 04.11.2016.
+ * Created by JensGe on 04.11.2016.
  */
 public class PlayerTest {
 

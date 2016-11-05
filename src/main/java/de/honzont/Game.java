@@ -3,7 +3,7 @@ package main.java.de.honzont;
 import java.util.ArrayList;
 import java.util.Scanner;
 /**
- * Created by Gäbeler on 03.11.2016.
+ * Created by JensGe on 03.11.2016.
  */
 class Game extends Main{
     Boolean gameIsActive;
@@ -14,6 +14,8 @@ class Game extends Main{
     Game() {
         System.out.println("BlackJack > Starting Game ...");
         gameIsActive = true;
+        players.add(new Player());  // Adds the Dealer
+
     }
 
     static String selectGameMenuOption() {
@@ -32,7 +34,7 @@ class Game extends Main{
     }
 
     void newRound() {
-        Round round = new Round();
+        Round round = new Round(this);
         rounds.add(round);
     }
 

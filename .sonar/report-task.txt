@@ -1,5 +1,5 @@
-projectKey=org.sonarqube:blackjack
+projectKey=blackjack
 serverUrl=http://localhost:9000
-dashboardUrl=http://localhost:9000/dashboard/index/org.sonarqube:blackjack
-ceTaskId=AVg0UlpQU6WaaQgjv4IF
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AVg0UlpQU6WaaQgjv4IF
+dashboardUrl=http://localhost:9000/dashboard/index/blackjack
+ceTaskId=AVg0kDYF1K6iX3717tQb
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AVg0kDYF1K6iX3717tQb

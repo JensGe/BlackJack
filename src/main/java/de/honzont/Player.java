@@ -2,14 +2,15 @@ package main.java.de.honzont;
 
 import java.util.ArrayList;
 /**
- * Created by Gäbeler on 03.11.2016.
- */
+* Created by JensGe on 03.11.2016.
+*/
 public class Player {
     private Integer bankroll;
     private String name;
     private Boolean isDealer = false;
     private ArrayList<Card> hand = new ArrayList<>();
     private Integer bet = 0;
+    private Boolean isOnStay = false;
 
 
 
@@ -22,15 +23,25 @@ public class Player {
         this.name = "Dealer";
         this.isDealer = true;
         this.bankroll = 0;
+        System.out.println("BlackJack > Dealer created");
     }
 
-    public Integer getHandValue(Card[] hand) {
+    public Integer getHandValue() {
         Integer handValue = 0;
-        for (int i=0;i<hand.length;i++) {
-            handValue += hand[i].getValue();
+        for (Card card : hand) {
+            handValue += card.getValue();
         }
         return handValue;
     }
+
+    public String getHandAsString() {
+        String handString = "";
+        for (Card card : hand) {
+            handString += card.getName() + ", ";
+        }
+        return handString;
+    }
+
     /* Standard Getter & Setter */
     public Integer getBankroll() {
         return bankroll;
@@ -53,13 +64,22 @@ public class Player {
     public ArrayList<Card> getHand() {
         return hand;
     }
-    public void setHand(ArrayList<Card> hand) {
-        this.hand = hand;
+    public void drawCard(Card card) {
+        this.hand.add(card);
     }
     public Integer getBet() {
         return bet;
     }
     public void setBet(Integer bet) {
         this.bet = bet;
+    }
+
+
+    public Boolean getIsOnStay() {
+        return isOnStay;
+    }
+
+    public void setIsOnStay(Boolean onStay) {
+        isOnStay = onStay;
     }
 }

@@ -1,7 +1,9 @@
 package main.java.de.honzont;
 
 import java.util.Scanner;
-
+/**
+ * Created by JensGe on 03.11.2016.
+ */
 public class Main{
 
     private static final int STANDARDBANKROLL = 200;
@@ -43,10 +45,8 @@ public class Main{
         return scanner.nextLine();
     }
     private static Player selectPlayerToRemove(Game game) {
-        Integer i = 1;
-        for (Player player : game.players) {
-            System.out.println("BlackJack > " + i + " " + player.getName());
-            i++;
+        for (int i = 1; i< game.players.size(); i++) {
+            System.out.println("BlackJack > " + i + " " + game.players.get(i).getName());
         }
         System.out.print("BlackJack > Remove Player with Number: ");
         Integer selection = scanner.nextInt();

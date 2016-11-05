@@ -1,7 +1,7 @@
 package main.java.de.honzont;
 
 /**
- * Created by Gäbeler on 03.11.2016.
+ * Created by JensGe on 03.11.2016.
  */
 public class Card {
     private String name;

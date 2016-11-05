@@ -1,9 +1,12 @@
 package main.java.de.honzont;
 
 import java.util.Scanner;
-
+/**
+ * Created by JensGe on 03.11.2016.
+ */
 public class Main{
 
+    public static final String JACK = "BlackJack > ";
     private static final int STANDARDBANKROLL = 200;
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -39,18 +42,16 @@ public class Main{
 
     }
     private static String queryNewPlayerName() {
-        System.out.print("BlackJack > New Player Name: ");
+        System.out.print(JACK + "New Player Name: ");
         return scanner.nextLine();
     }
-    private static Player selectPlayerToRemove(Game game) {
-        Integer i = 1;
-        for (Player player : game.players) {
-            System.out.println("BlackJack > " + i + " " + player.getName());
-            i++;
+    private static Player selectPlayerToRemove(Game game) { //TODO Exit-Strategy needed
+        for (int i = 1; i< game.players.size(); i++) {
+            System.out.println(JACK + i + " " + game.players.get(i).getName());
         }
-        System.out.print("BlackJack > Remove Player with Number: ");
+        System.out.print(JACK + "Remove Player with Number: ");
         Integer selection = scanner.nextInt();
-        return game.players.get(selection-1);
+        return game.players.get(selection);
     }
 
 

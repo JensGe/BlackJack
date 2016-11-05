@@ -68,6 +68,9 @@ public class CardDeck {
         deck.add(new Card("Ace of Spades", 11));
       }
 
+    /**
+     * Shuffles the Deck
+     */
     public void shuffleDeck() {
         Collections.shuffle(deck);
     }

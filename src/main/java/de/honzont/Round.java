@@ -1,6 +1,7 @@
 package main.java.de.honzont;
 
 import java.util.Scanner;
+import static main.java.de.honzont.Main.JACK;
 
 /**
  * Created by JensGe on 03.11.2016.
@@ -16,7 +17,7 @@ public class Round {
         dealFirstCards(game);
         dealSecondCards(game);
         runPlayerTurns(game);
-     /* runDealerTurn();
+     /*TODO runDealerTurn();
         calculateWinners();
         cleanUp();*/
 
@@ -24,7 +25,7 @@ public class Round {
 
     private void askForBets(Game game) {
         for (int i = 1; i < game.players.size(); i++) {
-            System.out.print("BlackJack > " + game.players.get(i).getName() + ", choose your bet: ");
+            System.out.print(JACK + game.players.get(i).getName() + ", choose your bet: ");
             game.players.get(i).setBankroll(scanner.nextInt());
         }
     }
@@ -39,7 +40,7 @@ public class Round {
             } else {
                 printCardName = card.getName();
             }
-            System.out.println("BlackJack > " + game.players.get(i).getName() + " draws a " + printCardName);
+            System.out.println(JACK + game.players.get(i).getName() + " draws a " + printCardName);
         }
     }
 
@@ -47,7 +48,7 @@ public class Round {
         for (int i = 1; i < game.players.size(); i++) {
             Card card = deck.getCard();
             game.players.get(i).drawCard(card);
-            System.out.println("BlackJack > " + game.players.get(i).getName() + " draws a " + card.getName());
+            System.out.println(JACK + game.players.get(i).getName() + " draws a " + card.getName());
         }
     }
 
@@ -56,11 +57,11 @@ public class Round {
         do {
             for (int i = 1; i < game.players.size(); i++) {
                 if (game.players.get(i).getIsOnStay()) {    //TODO getIsOnStay refactoren & true/false umdrehen
-                    System.out.println("BlackJack > " + game.players.get(i).getName() + " stays already");
+                    System.out.println(JACK + game.players.get(i).getName() + " stays already");
                 } else {
-                    System.out.println("BlackJack > " + game.players.get(i).getName() + ", your Hand: " + game.players.get(i).getHandAsString());
-                    System.out.println("BlackJack > Your Handvalue is " + game.players.get(i).getHandValue());
-                    System.out.print("BlackJack > Do you want to (h)it or (s)tay? >");
+                    System.out.println(JACK + game.players.get(i).getName() + ", your Hand: " + game.players.get(i).getHandAsString());
+                    System.out.println(JACK + "Your Handvalue is " + game.players.get(i).getHandValue());
+                    System.out.print(JACK + "Do you want to (h)it or (s)tay? >");
                     game.players.get(i).setIsOnStay(convertPlayerChoice(scanner.next().toLowerCase().substring(0, 1)));
                     /*TODO nächste Methoden programmieren
                     eventuallygetCard()
@@ -82,7 +83,7 @@ public class Round {
                 stayCounter += 1;
                 return false;
             default:
-                return true;
+                return null;
         }
     }
 }

@@ -1,6 +1,8 @@
 package main.java.de.honzont;
 
 import java.util.ArrayList;
+
+
 /**
 * Created by JensGe on 03.11.2016.
 */
@@ -23,7 +25,6 @@ public class Player {
         this.name = "Dealer";
         this.isDealer = true;
         this.bankroll = 0;
-        System.out.println("BlackJack > Dealer created");
     }
 
     public Integer getHandValue() {
@@ -35,11 +36,11 @@ public class Player {
     }
 
     public String getHandAsString() {
-        String handString = "";
-        for (Card card : hand) {
-            handString += card.getName() + ", ";
+        StringBuilder handStringBuilder = new StringBuilder();
+        for (int i = 0; i< hand.size(); ++i) {
+            handStringBuilder.append(hand.get(i).getName());
         }
-        return handString;
+        return handStringBuilder.toString();
     }
 
     /* Standard Getter & Setter */

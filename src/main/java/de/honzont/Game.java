@@ -12,23 +12,23 @@ class Game extends Main{
     ArrayList<Round> rounds = new ArrayList<>();
 
     Game() {
-        System.out.println("BlackJack > Starting Game ...");
+        System.out.println(JACK + "Starting Game ...");
         gameIsActive = true;
         players.add(new Player());  // Adds the Dealer
-
+        System.out.println(JACK + "Dealer created");
     }
 
     static String selectGameMenuOption() {
         Scanner scanner = new Scanner(System.in);
         String menuSelection;
-        System.out.println("BlackJack > *******************");
-        System.out.println("BlackJack > * (N)ew Round     *");
-        System.out.println("BlackJack > * (A)dd Player    *");
-        System.out.println("BlackJack > * (R)emove Player *");
-        System.out.println("BlackJack > * (S)tatistics    *");
-        System.out.println("BlackJack > * (Q)uit Game     *");
-        System.out.println("BlackJack > *******************");
-        System.out.print("BlackJack > ");
+        System.out.println(JACK + "*******************");
+        System.out.println(JACK + "* (N)ew Round     *");
+        System.out.println(JACK + "* (A)dd Player    *");
+        System.out.println(JACK + "* (R)emove Player *");
+        System.out.println(JACK + "* (S)tatistics    *");
+        System.out.println(JACK + "* (Q)uit Game     *");
+        System.out.println(JACK + "*******************");
+        System.out.print(JACK);
         menuSelection = scanner.next().toLowerCase().substring(0,1);
         return menuSelection;
     }
@@ -49,13 +49,13 @@ class Game extends Main{
 
     void showPlayerStats() {
         for (Player player : players) {
-            System.out.println("BlackJack > Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
+            System.out.println(JACK + "Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
         }
     }
 
     void quitGame() {
         gameIsActive = false;
-        System.out.println("BlackJack > Good Game, Bye");
+        System.out.println(JACK + "Good Game, Bye");
     }
 
 }

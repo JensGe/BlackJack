@@ -15,12 +15,18 @@ public class Player {
     private Boolean isOnStay = false;
 
 
-
+    /**
+     * @param name name of a player
+     * @param bankroll bankroll of a player
+     */
     public Player(String name,Integer bankroll) {
         this.name = name;
         this.bankroll = bankroll;
     }
 
+    /**
+     * If no parameter (name, bankroll) is passed, a Dealer is created
+     */
     public Player() {
         this.name = "Dealer";
         this.isDealer = true;
@@ -39,6 +45,7 @@ public class Player {
         StringBuilder handStringBuilder = new StringBuilder();
         for (int i = 0; i< hand.size(); ++i) {
             handStringBuilder.append(hand.get(i).getName());
+            handStringBuilder.append(", ");         //TODO Iterater mit has next?
         }
         return handStringBuilder.toString();
     }
@@ -65,6 +72,10 @@ public class Player {
     public ArrayList<Card> getHand() {
         return hand;
     }
+
+    /**
+     * @param card
+     */
     public void drawCard(Card card) {
         this.hand.add(card);
     }

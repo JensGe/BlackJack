@@ -1,7 +1,7 @@
 package main.java.de.honzont;
 
 import java.util.Scanner;
-import static main.java.de.honzont.Main.JACK;
+import static main.java.de.honzont.Main.consoleOutput;
 
 /**
  * Created by JensGe on 03.11.2016.
@@ -11,26 +11,32 @@ public class Round {
     private final Scanner scanner = new Scanner(System.in);
     private Integer stayCounter;
 
-    Round(Game game) {
+
+    Round(final Game game) {
         askForBets(game);
         deck.shuffleDeck();
         dealFirstCards(game);
         dealSecondCards(game);
+        stayCounter = 0;
+        do {
+            for (int i=1; i < game.players.size(); i++) {
+                game.players.get(i).getHandAsString();
+            }
+        } while (stayCounter < game.players.size());
+
         runPlayerTurns(game);
-     /*TODO runDealerTurn();
-        calculateWinners();
-        cleanUp();*/
+     //TODO runDealerTurn(), calculateWinners(); cleanUp()
 
     }
 
-    private void askForBets(Game game) {
+    private void askForBets(final Game game) {
         for (int i = 1; i < game.players.size(); i++) {
-            System.out.print(JACK + game.players.get(i).getName() + ", choose your bet: ");
+            consoleOutput(game.players.get(i).getName() + ", choose your bet: ");
             game.players.get(i).setBankroll(scanner.nextInt());
         }
     }
 
-    private void dealFirstCards(Game game) {
+    private void dealFirstCards(final Game game) {
         for (int i = 0; i < game.players.size(); i++) {
             Card card = deck.getCard();
             game.players.get(i).drawCard(card);
@@ -40,50 +46,48 @@ public class Round {
             } else {
                 printCardName = card.getName();
             }
-            System.out.println(JACK + game.players.get(i).getName() + " draws a " + printCardName);
+            consoleOutput(game.players.get(i).getName() + " draws a " + printCardName);
         }
     }
 
-    private void dealSecondCards(Game game) {
+    private void dealSecondCards(final Game game) {
         for (int i = 1; i < game.players.size(); i++) {
             Card card = deck.getCard();
             game.players.get(i).drawCard(card);
-            System.out.println(JACK + game.players.get(i).getName() + " draws a " + card.getName());
+            consoleOutput(game.players.get(i).getName() + " draws a " + card.getName());
         }
     }
 
-    private void runPlayerTurns(Game game) {
-        stayCounter = 1;
-        do {
-            for (int i = 1; i < game.players.size(); i++) {
-                if (game.players.get(i).getIsOnStay()) {    //TODO getIsOnStay refactoren & true/false umdrehen
-                    System.out.println(JACK + game.players.get(i).getName() + " stays already");
-                } else {
-                    System.out.println(JACK + game.players.get(i).getName() + ", your Hand: " + game.players.get(i).getHandAsString());
-                    System.out.println(JACK + "Your Handvalue is " + game.players.get(i).getHandValue());
-                    System.out.print(JACK + "Do you want to (h)it or (s)tay? >");
-                    game.players.get(i).setIsOnStay(convertPlayerChoice(scanner.next().toLowerCase().substring(0, 1)));
-                    /*TODO nächste Methoden programmieren
-                    eventuallygetCard()
-                    getPlayerChoice()
-                    checkHandValue() */
-                }
+    private void runPlayerTurns(final Game game) {
 
+        for (int i = 1; i < game.players.size(); i++) {
+            if (game.players.get(i).getIsOnStay()) {    //TODO getIsOnStay refactoren & true/false umdrehen
+                consoleOutput(game.players.get(i).getName() + " stays already");
+            } else {
+                consoleOutput(game.players.get(i).getName() + ", your Hand: " + game.players.get(i).getHandAsString());
+                consoleOutput("Your Handvalue is " + game.players.get(i).getHandValue());
+                consoleOutput("Do you want to (h)it or (s)tay? >");
+                game.players.get(i).setIsOnStay(convertPlayerChoice(scanner.next().toLowerCase().substring(0, 1)));
+
+
+                /*TODO nächste Methoden programmieren
+                eventuallygetCard()
+                getPlayerChoice()
+                checkHandValue() */
             }
-        } while (stayCounter < game.players.size());
+
+        }
+
 
 
     }
 
     private Boolean convertPlayerChoice(String selection) {
-        switch (selection) {
-            case "h":
-                return true;
-            case "s":
-                stayCounter += 1;
-                return false;
-            default:
-                return null;
+        if ("s".equals(selection)) {
+            stayCounter += 1;
+            return false;
+        } else {
+            return true;
         }
     }
 }

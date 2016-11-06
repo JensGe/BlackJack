@@ -11,20 +11,20 @@ class Game extends Main {
     LinkedList<Round> rounds = new LinkedList<>();
 
     Game() {
-        consoleOutput("Starting Game ...");
+        consoleOutputLine("Starting Game ...");
         gameIsActive = true;
         players.add(new Player());  // Adds the Dealer
-        consoleOutput("Dealer created");
+        consoleOutputLine("Dealer created");
     }
 
     static String selectGameMenuOption() {
-        consoleOutput("*******************");
-        consoleOutput("* (N)ew Round     *");
-        consoleOutput("* (A)dd Player    *");
-        consoleOutput("* (R)emove Player *");
-        consoleOutput("* (S)tatistics    *");
-        consoleOutput("* (Q)uit Game     *");
-        consoleOutput("*******************");
+        consoleOutputLine("*******************");
+        consoleOutputLine("* (N)ew Round     *");
+        consoleOutputLine("* (A)dd Player    *");
+        consoleOutputLine("* (R)emove Player *");
+        consoleOutputLine("* (S)tatistics    *");
+        consoleOutputLine("* (Q)uit Game     *");
+        consoleOutputLine("*******************");
         return getStringLineInput().toLowerCase().substring(0,1);
     }
 
@@ -49,13 +49,13 @@ class Game extends Main {
 
     void showPlayerStats() {
         for (Player player : players) {
-            consoleOutput("Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
+            consoleOutputLine("Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
         }
     }
 
     void quitGame() {
         setGameIsActive(false);
-        consoleOutput("Good Game, Bye");
+        consoleOutputLine("Good Game, Bye");
     }
 
     public Boolean getGameIsActive() {

@@ -1,7 +1,7 @@
 package main.java.de.honzont;
 
 import java.util.ArrayList;
-
+import static main.java.de.honzont.Main.consoleOutputLine;
 
 /**
 * Created by JensGe on 03.11.2016.
@@ -12,7 +12,7 @@ public class Player {
     private Boolean isDealer = false;
     private ArrayList<Card> hand = new ArrayList<>();
     private Integer bet = 0;
-    private Boolean wantsMoreCards = true;
+    private PlayerState playerState = PlayerState.ACTIVE;
 
 
     /**
@@ -43,10 +43,11 @@ public class Player {
 
     public String getHandAsString() {
         StringBuilder handStringBuilder = new StringBuilder();
-        for (int i = 0; i < hand.size(); ++i) {
+        for (int i = 0; i+1 < hand.size(); i++) {
             handStringBuilder.append(hand.get(i).getName());
-            handStringBuilder.append(", ");         //TODO Iterater mit has next?
+            handStringBuilder.append(", ");
         }
+        handStringBuilder.append(hand.get(hand.size()-1).getName());
         return handStringBuilder.toString();
     }
 
@@ -79,6 +80,7 @@ public class Player {
     public void drawCard(Card card) {
         this.hand.add(card);
     }
+
     public Integer getBet() {
         return bet;
     }
@@ -87,11 +89,12 @@ public class Player {
     }
 
 
-    public Boolean checkWantsMoreCards() {
-        return wantsMoreCards;
+    public PlayerState getPlayerState() {
+        return playerState;
     }
 
-    public void setWantsMoreCards(Boolean bool) {
-        wantsMoreCards = bool;
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
     }
+
 }

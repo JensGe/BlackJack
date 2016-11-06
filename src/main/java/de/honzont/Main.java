@@ -4,8 +4,8 @@ import java.util.Scanner;
 /**
  * Created by JensGe on 03.11.2016.
  */
-public class Main {
 
+public class Main {
     private static final int STANDARDBANKROLL = 200;
 
     /**
@@ -51,7 +51,7 @@ public class Main {
      * @return a Name for a new Player
      */
     private static String queryNewPlayerName() {
-        consoleOutput("New Player Name: ");
+        consoleOutputLine("New Player Name: ");
         return getStringLineInput();
     }
 
@@ -61,7 +61,7 @@ public class Main {
      */
     private static Player selectPlayerToRemove(final Game game) {
         for (int i = 1; i < game.players.size(); i++) {
-            consoleOutput(i + " " + game.players.get(i).getName());
+            consoleOutputLine(i + " " + game.players.get(i).getName());
         }
         Integer playerID = getIntegerInput();
         if (playerID >= 1 && playerID < game.players.size()) {
@@ -76,8 +76,15 @@ public class Main {
     /**
      * @param output String to print to Console
      */
-    public static void consoleOutput(String output) {
+    public static void consoleOutputLine(String output) {
         System.out.println("BlackJack > " + output);
+    }
+
+    /**
+     * @param output String to print to Console
+     */
+    public static void consoleOutput() {
+        System.out.print("BlackJack > ");
     }
 
 
@@ -86,13 +93,13 @@ public class Main {
      */
     static String getStringLineInput() {
         Scanner stringLineScanner = new Scanner(System.in);
-        System.out.print("BlackJack > ");
+        consoleOutput();
         return stringLineScanner.nextLine();
     }
 
     static String getStringInput() {
         Scanner stringScanner = new Scanner(System.in);
-        System.out.print("BlackJack > ");
+        consoleOutput();
         return stringScanner.next();
     }
 
@@ -101,7 +108,7 @@ public class Main {
      */
     static Integer getIntegerInput() {
         Scanner integerScanner = new Scanner(System.in);
-        System.out.print("BlackJack > ");
+        consoleOutput();
         return integerScanner.nextInt();
     }
 

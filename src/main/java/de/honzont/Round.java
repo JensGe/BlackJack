@@ -1,6 +1,6 @@
 package main.java.de.honzont;
 
-import static main.java.de.honzont.Main.consoleOutput;
+import static main.java.de.honzont.Main.consoleOutputLine;
 import static main.java.de.honzont.Main.getIntegerInput;
 import static main.java.de.honzont.Main.getStringInput;
 
@@ -9,7 +9,8 @@ import static main.java.de.honzont.Main.getStringInput;
  */
 public class Round {
     private CardDeck deck = new CardDeck();
-    private Integer overallStayCount;
+    private Integer outOfGameCounter;
+
 
 
     Round(final Game game) {
@@ -17,22 +18,22 @@ public class Round {
         deck.shuffleDeck();
         dealFirstCards(game);
         dealSecondCards(game);
-        overallStayCount = 0;
+        outOfGameCounter = 0;
         do {
             for (int i=1; i < game.players.size(); i++) {
                 runPlayerTurn(game.players.get(i));
             }
-        } while (overallStayCount+1 < game.players.size());
-        consoleOutput("OverallStayCount :" + overallStayCount);
+        } while (outOfGameCounter +1 < game.players.size());
+        runDealerTurn(game);
 
-
-     //TODO runDealerTurn(), calculateWinners(); cleanUp()
+        
+     //TODO rankPlayers(); cleanUp()
 
     }
 
     private void askPlayersForBet(final Game game) {
         for (int i = 1; i < game.players.size(); i++) {
-            consoleOutput(game.players.get(i).getName() + ", choose your bet: ");
+            consoleOutputLine(game.players.get(i).getName() + ", choose your bet: ");
             game.players.get(i).setBankroll(getIntegerInput());
         }
     }
@@ -47,7 +48,7 @@ public class Round {
             } else {
                 printCardName = card.getName();
             }
-            consoleOutput(game.players.get(i).getName() + " draws a " + printCardName);
+            consoleOutputLine(game.players.get(i).getName() + " draws a " + printCardName);
         }
     }
 
@@ -55,47 +56,62 @@ public class Round {
         for (int i = 1; i < game.players.size(); i++) {
             Card card = deck.getCard();
             game.players.get(i).drawCard(card);
-            consoleOutput(game.players.get(i).getName() + " draws a " + card.getName());
+            consoleOutputLine(game.players.get(i).getName() + " draws a " + card.getName());
         }
     }
 
     private void runPlayerTurn(Player player) {
-        if (player.checkWantsMoreCards()) {
-            consoleOutput(player.getName() + ", your Hand: " + player.getHandAsString());
-            consoleOutput("Your Handvalue is " + player.getHandValue());
-            consoleOutput("Do you want to (h)it or (s)tay? >");
-            String tempstring = getStringInput();
-            String choiceAsString = tempstring.toLowerCase().substring(0, 1);
-            player.setWantsMoreCards(convertPlayerChoice(choiceAsString));
-        } else {
-            consoleOutput(player.getName() + " stays already");
+        switch (player.getPlayerState()) {
+            case ACTIVE:
+                consoleOutputLine(player.getPlayerState() + " Player " + player.getName() + " ");
+                consoleOutputLine(player.getName() + ", your Hand: " + player.getHandAsString());
+                consoleOutputLine("Your Handvalue is " + player.getHandValue());
+                consoleOutputLine("Do you want to (h)it or (s)tay? >");
+                if (getStringInput().toLowerCase().substring(0, 1).equals("s")) {
+                    player.setPlayerState(PlayerState.STAYED);
+                    outOfGameCounter++;
+                }
+                break;
+            case STAYED:
+                consoleOutputLine("Player " + player.getName() + "STAYS at " + player.getHandValue());
+                break;
+            case BUSTED:
+                consoleOutputLine("Player " + player.getName() + "is BUSTED at " + player.getHandValue());
+                break;
+            default:
+                consoleOutputLine("Unknown State");
+                break;
         }
-
-        if (player.checkWantsMoreCards()) {
+        if (player.getPlayerState() == PlayerState.ACTIVE) {
             player.drawCard(deck.getCard());
+            bustChecker(player);
         } else {
-            consoleOutput("Next Player");
-
-
-        /*TODO nächste Methoden programmieren
-        eventuallygetCard()
-        getPlayerChoice()
-        checkHandValue() */
-            }
-
-
-
+            consoleOutputLine("Next Player");
+        }
 
     }
 
-    private Boolean convertPlayerChoice(String selection) {
-        if ("s".equals(selection)) {
-            overallStayCount += 1;
-            return false;
-        } else {
-            return true;
+    private void bustChecker(Player player) {
+        if (player.getHandValue() > 21 && player.getPlayerState() == PlayerState.ACTIVE) {
+            player.setPlayerState(PlayerState.BUSTED);
+            outOfGameCounter++;
+            consoleOutputLine(player.getName() + ", you are BUSTED with " + player.getHandValue());
         }
     }
+
+    private void runDealerTurn(Game game) {
+        Player dealer = game.players.get(0);
+        consoleOutputLine(dealer.getName() + "'s Hand: " + dealer.getHandAsString());
+        consoleOutputLine(dealer.getName() + "'s Handvalue: " + dealer.getHandValue());
+        while (dealer.getHandValue() < 17) {
+            dealer.drawCard(deck.getCard());
+        }
+        bustChecker(dealer);
+        consoleOutputLine(dealer.getName() + "'s final Hand: " + dealer.getHandAsString());
+        consoleOutputLine(dealer.getName() + "'s final Handvalue: " + dealer.getHandValue());
+    }
+
+
 }
 
 

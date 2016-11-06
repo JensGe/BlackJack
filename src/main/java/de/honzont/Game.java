@@ -2,7 +2,6 @@ package main.java.de.honzont;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Scanner;
 /**
  * Created by JensGe on 03.11.2016.
  */
@@ -19,8 +18,6 @@ class Game extends Main {
     }
 
     static String selectGameMenuOption() {
-        Scanner scanner = new Scanner(System.in);
-        String menuSelection;
         consoleOutput("*******************");
         consoleOutput("* (N)ew Round     *");
         consoleOutput("* (A)dd Player    *");
@@ -28,9 +25,7 @@ class Game extends Main {
         consoleOutput("* (S)tatistics    *");
         consoleOutput("* (Q)uit Game     *");
         consoleOutput("*******************");
-        consoleOutput("");
-        menuSelection = scanner.next().toLowerCase().substring(0,1);
-        return menuSelection;
+        return getStringLineInput().toLowerCase().substring(0,1);
     }
 
     void newRound() {
@@ -44,7 +39,12 @@ class Game extends Main {
     }
 
     void removePlayer(Player player) {
-        players.remove(player);
+        if (player.equals(players.get(0))) {
+            return;
+        } else {
+            players.remove(player);
+        }
+
     }
 
     void showPlayerStats() {

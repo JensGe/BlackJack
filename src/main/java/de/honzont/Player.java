@@ -12,14 +12,14 @@ public class Player {
     private Boolean isDealer = false;
     private ArrayList<Card> hand = new ArrayList<>();
     private Integer bet = 0;
-    private Boolean isOnStay = false;
+    private Boolean wantsMoreCards = true;
 
 
     /**
      * @param name name of a player
      * @param bankroll bankroll of a player
      */
-    public Player(String name,Integer bankroll) {
+    public Player(String name, Integer bankroll) {
         this.name = name;
         this.bankroll = bankroll;
     }
@@ -43,7 +43,7 @@ public class Player {
 
     public String getHandAsString() {
         StringBuilder handStringBuilder = new StringBuilder();
-        for (int i = 0; i< hand.size(); ++i) {
+        for (int i = 0; i < hand.size(); ++i) {
             handStringBuilder.append(hand.get(i).getName());
             handStringBuilder.append(", ");         //TODO Iterater mit has next?
         }
@@ -87,11 +87,11 @@ public class Player {
     }
 
 
-    public Boolean getIsOnStay() {
-        return isOnStay;
+    public Boolean checkWantsMoreCards() {
+        return wantsMoreCards;
     }
 
-    public void setIsOnStay(Boolean onStay) {
-        isOnStay = onStay;
+    public void setWantsMoreCards(Boolean bool) {
+        wantsMoreCards = bool;
     }
 }

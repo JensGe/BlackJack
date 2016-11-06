@@ -1,36 +1,44 @@
 package main.java.de.honzont;
 
-import java.util.Scanner;
-import static main.java.de.honzont.Main.JACK;
+import static main.java.de.honzont.Main.consoleOutputLine;
+import static main.java.de.honzont.Main.getIntegerInput;
+import static main.java.de.honzont.Main.getStringInput;
 
 /**
  * Created by JensGe on 03.11.2016.
  */
 public class Round {
     private CardDeck deck = new CardDeck();
-    private final Scanner scanner = new Scanner(System.in);
-    private Integer stayCounter;
+    private Integer outOfGameCounter;
 
-    Round(Game game) {
-        askForBets(game);
+
+
+    Round(final Game game) {
+        askPlayersForBet(game);
         deck.shuffleDeck();
         dealFirstCards(game);
         dealSecondCards(game);
-        runPlayerTurns(game);
-     /*TODO runDealerTurn();
-        calculateWinners();
-        cleanUp();*/
+        outOfGameCounter = 0;
+        do {
+            for (int i=1; i < game.players.size(); i++) {
+                runPlayerTurn(game.players.get(i));
+            }
+        } while (outOfGameCounter +1 < game.players.size());
+        runDealerTurn(game);
+
+        
+     //TODO rankPlayers(); cleanUp()
 
     }
 
-    private void askForBets(Game game) {
+    private void askPlayersForBet(final Game game) {
         for (int i = 1; i < game.players.size(); i++) {
-            System.out.print(JACK + game.players.get(i).getName() + ", choose your bet: ");
-            game.players.get(i).setBankroll(scanner.nextInt());
+            consoleOutputLine(game.players.get(i).getName() + ", choose your bet: ");
+            game.players.get(i).setBankroll(getIntegerInput());
         }
     }
 
-    private void dealFirstCards(Game game) {
+    private void dealFirstCards(final Game game) {
         for (int i = 0; i < game.players.size(); i++) {
             Card card = deck.getCard();
             game.players.get(i).drawCard(card);
@@ -40,52 +48,70 @@ public class Round {
             } else {
                 printCardName = card.getName();
             }
-            System.out.println(JACK + game.players.get(i).getName() + " draws a " + printCardName);
+            consoleOutputLine(game.players.get(i).getName() + " draws a " + printCardName);
         }
     }
 
-    private void dealSecondCards(Game game) {
+    private void dealSecondCards(final Game game) {
         for (int i = 1; i < game.players.size(); i++) {
             Card card = deck.getCard();
             game.players.get(i).drawCard(card);
-            System.out.println(JACK + game.players.get(i).getName() + " draws a " + card.getName());
+            consoleOutputLine(game.players.get(i).getName() + " draws a " + card.getName());
         }
     }
 
-    private void runPlayerTurns(Game game) {
-        stayCounter = 1;
-        do {
-            for (int i = 1; i < game.players.size(); i++) {
-                if (game.players.get(i).getIsOnStay()) {    //TODO getIsOnStay refactoren & true/false umdrehen
-                    System.out.println(JACK + game.players.get(i).getName() + " stays already");
-                } else {
-                    System.out.println(JACK + game.players.get(i).getName() + ", your Hand: " + game.players.get(i).getHandAsString());
-                    System.out.println(JACK + "Your Handvalue is " + game.players.get(i).getHandValue());
-                    System.out.print(JACK + "Do you want to (h)it or (s)tay? >");
-                    game.players.get(i).setIsOnStay(convertPlayerChoice(scanner.next().toLowerCase().substring(0, 1)));
-                    /*TODO nächste Methoden programmieren
-                    eventuallygetCard()
-                    getPlayerChoice()
-                    checkHandValue() */
+    private void runPlayerTurn(Player player) {
+        switch (player.getPlayerState()) {
+            case ACTIVE:
+                consoleOutputLine(player.getPlayerState() + " Player " + player.getName() + " ");
+                consoleOutputLine(player.getName() + ", your Hand: " + player.getHandAsString());
+                consoleOutputLine("Your Handvalue is " + player.getHandValue());
+                consoleOutputLine("Do you want to (h)it or (s)tay? >");
+                if (getStringInput().toLowerCase().substring(0, 1).equals("s")) {
+                    player.setPlayerState(PlayerState.STAYED);
+                    outOfGameCounter++;
                 }
-
-            }
-        } while (stayCounter < game.players.size());
-
+                break;
+            case STAYED:
+                consoleOutputLine("Player " + player.getName() + "STAYS at " + player.getHandValue());
+                break;
+            case BUSTED:
+                consoleOutputLine("Player " + player.getName() + "is BUSTED at " + player.getHandValue());
+                break;
+            default:
+                consoleOutputLine("Unknown State");
+                break;
+        }
+        if (player.getPlayerState() == PlayerState.ACTIVE) {
+            player.drawCard(deck.getCard());
+            bustChecker(player);
+        } else {
+            consoleOutputLine("Next Player");
+        }
 
     }
 
-    private Boolean convertPlayerChoice(String selection) {
-        switch (selection) {
-            case "h":
-                return true;
-            case "s":
-                stayCounter += 1;
-                return false;
-            default:
-                return null;
+    private void bustChecker(Player player) {
+        if (player.getHandValue() > 21 && player.getPlayerState() == PlayerState.ACTIVE) {
+            player.setPlayerState(PlayerState.BUSTED);
+            outOfGameCounter++;
+            consoleOutputLine(player.getName() + ", you are BUSTED with " + player.getHandValue());
         }
     }
+
+    private void runDealerTurn(Game game) {
+        Player dealer = game.players.get(0);
+        consoleOutputLine(dealer.getName() + "'s Hand: " + dealer.getHandAsString());
+        consoleOutputLine(dealer.getName() + "'s Handvalue: " + dealer.getHandValue());
+        while (dealer.getHandValue() < 17) {
+            dealer.drawCard(deck.getCard());
+        }
+        bustChecker(dealer);
+        consoleOutputLine(dealer.getName() + "'s final Hand: " + dealer.getHandAsString());
+        consoleOutputLine(dealer.getName() + "'s final Handvalue: " + dealer.getHandValue());
+    }
+
+
 }
 
 

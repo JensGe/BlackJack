@@ -4,31 +4,36 @@ import java.util.Scanner;
 /**
  * Created by JensGe on 03.11.2016.
  */
-public class Main{
 
-    public static final String JACK = "BlackJack > ";
+public class Main {
     private static final int STANDARDBANKROLL = 200;
-    private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    /**
+     * @param args
+     */
+    public static void main(final String[] args) {
         Game blackjack = new Game();
-        while (blackjack.gameIsActive) {
+        while (blackjack.getGameIsActive()) {
             String menuSelection = Game.selectGameMenuOption();
             runSelection(menuSelection, blackjack);
         }
-        scanner.close();
 
     }
-    private static void runSelection(String selection, Game game)  {
+
+    /**
+     * @param selection
+     * @param game
+     */
+    private static void runSelection(final String selection, final Game game)  {
         switch (selection) {
             case "n":
                 game.newRound();
                 break;
             case "a":
-                game.addPlayer(queryNewPlayerName(),STANDARDBANKROLL);
+                game.addPlayer(queryNewPlayerName(), STANDARDBANKROLL);
                 break;
             case "r":
-                game.removePlayer(selectPlayerToRemove(game));
+                game.removePlayer(selectPlayerToRemove(game));              //TODO Case: no Player to remove
                 break;
             case "s":
                 game.showPlayerStats();
@@ -41,17 +46,70 @@ public class Main{
         }
 
     }
+
+    /**
+     * @return a Name for a new Player
+     */
     private static String queryNewPlayerName() {
-        System.out.print(JACK + "New Player Name: ");
-        return scanner.nextLine();
+        consoleOutputLine("New Player Name: ");
+        return getStringLineInput();
     }
-    private static Player selectPlayerToRemove(Game game) { //TODO Exit-Strategy needed
-        for (int i = 1; i< game.players.size(); i++) {
-            System.out.println(JACK + i + " " + game.players.get(i).getName());
+
+    /**
+     * @param game
+     * @return
+     */
+    private static Player selectPlayerToRemove(final Game game) {
+        for (int i = 1; i < game.players.size(); i++) {
+            consoleOutputLine(i + " " + game.players.get(i).getName());
         }
-        System.out.print(JACK + "Remove Player with Number: ");
-        Integer selection = scanner.nextInt();
-        return game.players.get(selection);
+        Integer playerID = getIntegerInput();
+        if (playerID >= 1 && playerID < game.players.size()) {
+            return game.players.get(playerID);
+        } else {
+            return game.players.get(0);
+        }
+
+
+    }
+
+    /**
+     * @param output String to print to Console
+     */
+    public static void consoleOutputLine(String output) {
+        System.out.println("BlackJack > " + output);
+    }
+
+    /**
+     * @param output String to print to Console
+     */
+    public static void consoleOutput() {
+        System.out.print("BlackJack > ");
+    }
+
+
+    /**
+     * @return String
+     */
+    static String getStringLineInput() {
+        Scanner stringLineScanner = new Scanner(System.in);
+        consoleOutput();
+        return stringLineScanner.nextLine();
+    }
+
+    static String getStringInput() {
+        Scanner stringScanner = new Scanner(System.in);
+        consoleOutput();
+        return stringScanner.next();
+    }
+
+    /**
+     * @return an Integer
+     */
+    static Integer getIntegerInput() {
+        Scanner integerScanner = new Scanner(System.in);
+        consoleOutput();
+        return integerScanner.nextInt();
     }
 
 

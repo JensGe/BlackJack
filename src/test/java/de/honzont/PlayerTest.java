@@ -1,6 +1,5 @@
 package test.java.de.honzont;
 
-import main.java.de.honzont.Card;
 import main.java.de.honzont.Player;
 
 import org.junit.Test;
@@ -11,6 +10,10 @@ import static org.junit.Assert.*;
  */
 public class PlayerTest {
 
+    /**
+     * Tests if creating a Player with or without parameters results in
+     * a Player with name and bankroll or a Dealer
+     */
     @Test
     public void playerTest() {
         Player testPlayer = new Player("Tester", 200);
@@ -25,16 +28,5 @@ public class PlayerTest {
         assertEquals(expectedname,testDealer.getName());
         assertEquals(expectedbankroll,testDealer.getBankroll());
     }
-
-    //    @Test
-//    public void getHandValueTest() {
-//        int expectedHandValue = 21;
-//        Card[] hand = new Card[2];
-//        hand[0] = new Card("Ten of Diamonds", 10);
-//        hand[1] = new Card("Ace of Diamonds", 11);
-//        int returnedHandValue = getHandValue(hand);
-//        assertEquals(expectedHandValue, getHandValueTest());
-//    }
-
 
 }

@@ -63,14 +63,8 @@ public class Round {
     private void runPlayerTurn(Player player) {
         switch (player.getPlayerState()) {
             case ACTIVE:
-                consoleOutputLine(player.getPlayerState() + " Player " + player.getName() + " ");
-                consoleOutputLine(player.getName() + ", your Hand: " + player.getHandAsString());
-                consoleOutputLine("Your Handvalue is " + player.getHandValue());
-                consoleOutputLine("Do you want to (h)it or (s)tay? >");
-                if (getStringInput().toLowerCase().substring(0, 1).equals("s")) {
-                    player.setPlayerState(PlayerState.STAYED);
-                    outOfGameCounter++;
-                }
+                consoleOutputForActivePlayer(player);
+                stayChecker(player);
                 break;
             case STAYED:
                 consoleOutputLine("Player " + player.getName() + "STAYS at " + player.getHandValue());
@@ -89,6 +83,20 @@ public class Round {
             consoleOutputLine("Next Player");
         }
 
+    }
+
+    private void stayChecker(Player player) {
+        if ("s".equals(getStringInput().toLowerCase().substring(0, 1))) {
+            player.setPlayerState(PlayerState.STAYED);
+            outOfGameCounter++;
+        }
+    }
+
+    private void consoleOutputForActivePlayer(Player player) {
+        consoleOutputLine(player.getPlayerState() + " Player " + player.getName() + " ");
+        consoleOutputLine(player.getName() + ", your Hand: " + player.getHandAsString());
+        consoleOutputLine("Your Handvalue is " + player.getHandValue());
+        consoleOutputLine("Do you want to (h)it or (s)tay? >");
     }
 
     private void bustChecker(Player player) {

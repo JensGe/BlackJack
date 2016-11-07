@@ -1,5 +1,6 @@
-package main.java.de.honzont;
+package test.java.de.honzont;
 
+import main.java.de.honzont.Player;
 import org.junit.Before;
 import org.junit.Test;
 

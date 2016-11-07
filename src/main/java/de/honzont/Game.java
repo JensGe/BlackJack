@@ -2,6 +2,7 @@ package main.java.de.honzont;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
 /**
  * Created by JensGe on 03.11.2016.
  */
@@ -9,6 +10,8 @@ class Game extends Main {
     private Boolean gameIsActive;
     ArrayList<Player> players = new ArrayList<>();
     LinkedList<Round> rounds = new LinkedList<>();
+
+
 
     Game() {
         consoleOutputLine("Starting Game ...");
@@ -38,7 +41,7 @@ class Game extends Main {
         players.add(player);
     }
 
-    void removePlayer(Player player) {
+    void removePlayerIfItsNotTheDealer(Player player) {
         if (player.equals(players.get(0))) {
             return;
         } else {

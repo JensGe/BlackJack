@@ -33,7 +33,7 @@ public class Main {
                 game.addPlayer(queryNewPlayerName(), STANDARDBANKROLL);
                 break;
             case "r":
-                game.removePlayer(selectPlayerToRemove(game));              //TODO Case: no Player to remove
+                game.removePlayerIfItsNotTheDealer(selectPlayerToRemove(game));              //TODO Case: no Player to remove
                 break;
             case "s":
                 game.showPlayerStats();
@@ -60,15 +60,21 @@ public class Main {
      * @return
      */
     private static Player selectPlayerToRemove(final Game game) {
+        if (game.players.size() == 1) {
+            consoleOutputLine("No Player to Remove");
+            return game.players.get(0);
+        }
+        consoleOutputLine("0 None (Cancel)");
         for (int i = 1; i < game.players.size(); i++) {
             consoleOutputLine(i + " " + game.players.get(i).getName());
         }
-        Integer playerID = getIntegerInput();
-        if (playerID >= 1 && playerID < game.players.size()) {
-            return game.players.get(playerID);
+        Integer integerInput = getIntegerInput();
+        if (integerInput >= 1 && integerInput < game.players.size()) {
+            return game.players.get(integerInput);
         } else {
             return game.players.get(0);
         }
+
 
 
     }

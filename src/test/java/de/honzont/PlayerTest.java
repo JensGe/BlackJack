@@ -2,6 +2,8 @@ package test.java.de.honzont;
 
 import main.java.de.honzont.Player;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -9,6 +11,85 @@ import static org.junit.Assert.*;
  * Created by JensGe on 04.11.2016.
  */
 public class PlayerTest {
+    @Before
+    public void setUp() throws Exception {
+
+    }
+
+    @After
+    public void tearDown() throws Exception {
+
+    }
+
+    @Test
+    public void getHandValue() throws Exception {
+
+    }
+
+    @Test
+    public void getHandAsString() throws Exception {
+
+    }
+
+    @Test
+    public void getBankroll() throws Exception {
+
+    }
+
+    @Test
+    public void setBankroll() throws Exception {
+
+    }
+
+    @Test
+    public void getName() throws Exception {
+
+    }
+
+    @Test
+    public void setName() throws Exception {
+
+    }
+
+    @Test
+    public void getDealer() throws Exception {
+
+    }
+
+    @Test
+    public void setDealer() throws Exception {
+
+    }
+
+    @Test
+    public void getHand() throws Exception {
+
+    }
+
+    @Test
+    public void drawCard() throws Exception {
+
+    }
+
+    @Test
+    public void getBet() throws Exception {
+
+    }
+
+    @Test
+    public void setBet() throws Exception {
+
+    }
+
+    @Test
+    public void getPlayerState() throws Exception {
+
+    }
+
+    @Test
+    public void setPlayerState() throws Exception {
+
+    }
 
     /**
      * Tests if creating a Player with or without parameters results in

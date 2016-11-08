@@ -21,6 +21,7 @@ class Game extends Main {
     }
 
     static String selectGameMenuOption() {
+        String selection = "";
         consoleOutputLine("*******************");
         consoleOutputLine("* (N)ew Round     *");
         consoleOutputLine("* (A)dd Player    *");
@@ -28,7 +29,15 @@ class Game extends Main {
         consoleOutputLine("* (S)tatistics    *");
         consoleOutputLine("* (Q)uit Game     *");
         consoleOutputLine("*******************");
-        return getStringLineInput().toLowerCase().substring(0,1);
+        try {
+            selection = getStringLineInput().toLowerCase().substring(0,1);
+        }
+        catch (StringIndexOutOfBoundsException e) {
+            consoleOutputLine("No Selection");
+            selection = "";
+        }
+        return selection;
+
     }
 
     void newRound() {

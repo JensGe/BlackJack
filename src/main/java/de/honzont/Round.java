@@ -30,8 +30,22 @@ public class Round {
         rankNonBustedPlayers(game.players);
         setFinalPlayerStates(playersByHandValue, game.players);
         printScores(playersByHandValue);
-        // TODO cleanUp()
+        setBetsAndBankrolls(game.players);
 
+        // TODO  cleanUp()
+
+    }
+
+    private void setBetsAndBankrolls(ArrayList<Player> players) {
+        for (Player player : players) {
+            switch (player.getPlayerState()) {
+                case WINNER:
+                    player.setBankroll(player.getBankroll() + player.getBet());
+                case LOOSER:
+                    player.setBankroll(player.getBankroll() - player.getBet());
+            }
+            player.setBet(0);
+        }
     }
 
     private void printScores(ArrayList<Player> playersByHandValue) {

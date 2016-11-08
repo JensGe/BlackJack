@@ -27,18 +27,23 @@ public class Main {
     private static void runSelection(final String selection, final Game game)  {
         switch (selection) {
             case "n":
+            case "1":
                 game.newRound();
                 break;
             case "a":
+            case "2":
                 game.addPlayer(queryNewPlayerName(), STANDARDBANKROLL);
                 break;
             case "r":
-                game.removePlayerIfItsNotTheDealer(selectPlayerToRemove(game));              //TODO Case: no Player to remove
+            case "3":
+                game.removePlayerIfItsNotTheDealer(selectPlayerToRemove(game));
                 break;
             case "s":
+            case "4":
                 game.showPlayerStats();
                 break;
             case "q":
+            case "5":
                 game.quitGame();
                 break;
             default:
@@ -87,7 +92,7 @@ public class Main {
     }
 
     /**
-     * @param output String to print to Console
+     *
      */
     public static void consoleOutput() {
         System.out.print("BlackJack > ");

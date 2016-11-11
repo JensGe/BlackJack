@@ -6,7 +6,7 @@ import java.util.Collections;
 /**
  * Created by JensGe on 03.11.2016.
  */
-public class Round implements Console{
+public class Round implements Console {
     private CardDeck deck = new CardDeck();
     private Integer hitCounter;
     private ArrayList<Player> playersByHandValue = new ArrayList<>();
@@ -30,11 +30,12 @@ public class Round implements Console{
         setBetsAndBankrolls(game.players);
     }
 
-    private void setPlayersToActive(ArrayList<Player> players) {
+    public static void setPlayersToActive(ArrayList<Player> players) {
         for (Player player: players) {
             player.setPlayerState(PlayerState.ACTIVE);
         }
     }
+
     private void askPlayersForBet(ArrayList<Player> players) {
         for (int i = 1; i < players.size(); i++) {
             Console.printLine(players.get(i).getName() + ", choose your bet: ");

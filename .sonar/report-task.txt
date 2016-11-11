@@ -1,5 +1,5 @@
 projectKey=de.honzont.blackjack
 serverUrl=http://localhost:9000
 dashboardUrl=http://localhost:9000/dashboard/index/de.honzont.blackjack
-ceTaskId=AVhTWmfkmMWJZjeqyT0o
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AVhTWmfkmMWJZjeqyT0o
+ceTaskId=AVhVLR7r7FYvD0BZprhJ
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AVhVLR7r7FYvD0BZprhJ

@@ -12,8 +12,14 @@ public class Game implements Console {
 
     private static final int STANDARDBANKROLL = 200;
     private Boolean gameIsActive;
-    public LinkedList<Round> rounds = new LinkedList<>();
+    private LinkedList<Round> rounds = new LinkedList<>();
 
+    /**
+     * Starts the Game with
+     * Set Active Variable to True
+     * Add Dealer
+     * Loops until Active Variable is set to False
+     */
     public Game() {
         Console.printLine("Starting Game ...");
         gameIsActive = true;

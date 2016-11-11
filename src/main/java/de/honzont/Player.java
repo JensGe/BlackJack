@@ -1,6 +1,7 @@
 package main.java.de.honzont;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
 * Created by JensGe on 03.11.2016.
@@ -28,7 +29,7 @@ public class Player {
         this.hand.add(card);
     }
 
-    public ArrayList<Card> getHand() {
+    public List<Card> getHand() {
         return hand;
     }
     public Integer getHandValue() {
@@ -51,7 +52,7 @@ public class Player {
     public Integer getBankroll() {
         return bankroll;
     }
-    void setBankroll(Integer bankroll) {
+    public void setBankroll(Integer bankroll) {
         this.bankroll = bankroll;
     }
     public String getName() {
@@ -60,22 +61,22 @@ public class Player {
     public void setName(String name) {
         this.name = name;
     }
-    Boolean getDealer() {
+    public Boolean getDealer() {
         return isDealer;
     }
     public void setDealer(Boolean dealer) {
         isDealer = dealer;
     }
-    Integer getBet() {
+    public Integer getBet() {
         return bet;
     }
-    void setBet(Integer bet) {
+    public void setBet(Integer bet) {
         this.bet = bet;
     }
-    PlayerState getPlayerState() {
+    public PlayerState getPlayerState() {
         return playerState;
     }
-    void setPlayerState(PlayerState playerState) {
+    public void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;
     }
 

@@ -7,6 +7,10 @@ public class Card {
     private String name;
     private Integer value;
 
+    /**
+     * @param name
+     * @param value
+     */
     public Card(String name, Integer value) {
         this.name = name;
         this.value = value;

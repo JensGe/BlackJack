@@ -12,7 +12,7 @@ class Game implements Console {
 
     private static final int STANDARDBANKROLL = 200;
     private Boolean gameIsActive;
-    private LinkedList<Round> rounds = new LinkedList<>();
+    public LinkedList<Round> rounds = new LinkedList<>();
 
     Game() {
         Console.printLine("Starting Game ...");

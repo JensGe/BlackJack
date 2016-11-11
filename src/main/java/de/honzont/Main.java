@@ -9,14 +9,13 @@ public class Main {
 
     private static void main() {
         throw new IllegalAccessError("Utility class");
-    };
+    }
+
+    ;
 
     public static void main(final String[] args) {
         new Game();
     }
 
 
-    }
-
 }
-

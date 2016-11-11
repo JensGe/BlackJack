@@ -6,12 +6,12 @@ import java.util.Collections;
 /**
  * Created by JensGe on 03.11.2016.
  */
-class Round implements Console{
+public class Round implements Console{
     private CardDeck deck = new CardDeck();
     private Integer hitCounter;
     private ArrayList<Player> playersByHandValue = new ArrayList<>();
 
-    Round(final Game game) {
+    public Round(final Game game) {
         setPlayersToActive(game.players);
         askPlayersForBet(game.players);
         deck.shuffleDeck();
@@ -166,8 +166,17 @@ class Round implements Console{
         }
     }
     private boolean checkForSingleWinner(ArrayList<Player> playersByHandValue) {
-        return playersByHandValue.size() <= 1 || playersByHandValue.get(0).getHandValue() > playersByHandValue.get(1).getHandValue();
+        if (playersByHandValue.size() == 1) {
+            return true;
+        } else if (playersByHandValue.get(0).getHandValue() > playersByHandValue.get(1).getHandValue()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
+
+
     private boolean checkDealerHasTopHand(ArrayList<Player> playersByHandValue, ArrayList<Player> players) {
         return playersByHandValue.get(0).getHandValue().equals(players.get(0).getHandValue());
     }

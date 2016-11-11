@@ -7,14 +7,14 @@ import java.util.logging.Logger;
 /**
  * Created by JensGe on 03.11.2016.
  */
-class Game implements Console {
+public class Game implements Console {
     ArrayList<Player> players = new ArrayList<>();
 
     private static final int STANDARDBANKROLL = 200;
     private Boolean gameIsActive;
     public LinkedList<Round> rounds = new LinkedList<>();
 
-    Game() {
+    public Game() {
         Console.printLine("Starting Game ...");
         gameIsActive = true;
         players.add(new Player());              // Add Dealer at Position 0

@@ -24,21 +24,21 @@ public class Player {
         this.bankroll = 0;
     }
 
-    void drawCard(Card card) {
+    public void drawCard(Card card) {
         this.hand.add(card);
     }
 
     public ArrayList<Card> getHand() {
         return hand;
     }
-    Integer getHandValue() {
+    public Integer getHandValue() {
         Integer handValue = 0;
         for (Card card : hand) {
             handValue += card.getValue();
         }
         return handValue;
     }
-    String getHandAsString() {
+    public String getHandAsString() {
         StringBuilder handStringBuilder = new StringBuilder();
         for (int i = 0; i+1 < hand.size(); i++) {
             handStringBuilder.append(hand.get(i).getName());

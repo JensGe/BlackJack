@@ -1,7 +1,6 @@
 package main.java.de.honzont;
 
 import java.util.ArrayList;
-import static main.java.de.honzont.Main.consoleOutputLine;
 
 /**
 * Created by JensGe on 03.11.2016.
@@ -15,33 +14,34 @@ public class Player {
     private PlayerState playerState = PlayerState.ACTIVE;
 
 
-    /**
-     * @param name name of a player
-     * @param bankroll bankroll of a player
-     */
     public Player(String name, Integer bankroll) {
         this.name = name;
         this.bankroll = bankroll;
     }
 
-    /**
-     * If no parameter (name, bankroll) is passed, a Dealer is created
-     */
     public Player() {
         this.name = "Dealer";
         this.isDealer = true;
         this.bankroll = 0;
     }
 
-    public Integer getHandValue() {
+
+    void drawCard(Card card) {
+        this.hand.add(card);
+    }
+
+
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
+    Integer getHandValue() {
         Integer handValue = 0;
         for (Card card : hand) {
             handValue += card.getValue();
         }
         return handValue;
     }
-
-    public String getHandAsString() {
+    String getHandAsString() {
         StringBuilder handStringBuilder = new StringBuilder();
         for (int i = 0; i+1 < hand.size(); i++) {
             handStringBuilder.append(hand.get(i).getName());
@@ -51,11 +51,11 @@ public class Player {
         return handStringBuilder.toString();
     }
 
-    /* Standard Getter & Setter */
+
     public Integer getBankroll() {
         return bankroll;
     }
-    public void setBankroll(Integer bankroll) {
+    void setBankroll(Integer bankroll) {
         this.bankroll = bankroll;
     }
     public String getName() {
@@ -64,36 +64,22 @@ public class Player {
     public void setName(String name) {
         this.name = name;
     }
-    public Boolean getDealer() {
+    Boolean getDealer() {
         return isDealer;
     }
     public void setDealer(Boolean dealer) {
         isDealer = dealer;
     }
-    public ArrayList<Card> getHand() {
-        return hand;
-    }
-
-    /**
-     * @param card
-     */
-    public void drawCard(Card card) {
-        this.hand.add(card);
-    }
-
-    public Integer getBet() {
+    Integer getBet() {
         return bet;
     }
-    public void setBet(Integer bet) {
+    void setBet(Integer bet) {
         this.bet = bet;
     }
-
-
-    public PlayerState getPlayerState() {
+    PlayerState getPlayerState() {
         return playerState;
     }
-
-    public void setPlayerState(PlayerState playerState) {
+    void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;
     }
 

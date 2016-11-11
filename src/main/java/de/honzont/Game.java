@@ -6,51 +6,80 @@ import java.util.LinkedList;
 /**
  * Created by JensGe on 03.11.2016.
  */
-class Game extends Main {
-    private Boolean gameIsActive;
+class Game implements Console {
     ArrayList<Player> players = new ArrayList<>();
-    LinkedList<Round> rounds = new LinkedList<>();
 
-
+    private static final int STANDARDBANKROLL = 200;
+    private Boolean gameIsActive;
+    private LinkedList<Round> rounds = new LinkedList<>();
 
     Game() {
-        consoleOutputLine("Starting Game ...");
+        Console.printLine("Starting Game ...");
         gameIsActive = true;
-        players.add(new Player());  // Adds the Dealer
-        consoleOutputLine("Dealer created");
+        players.add(new Player());              // Add Dealer at Position 0
+
+        while (getGameIsActive()) {
+            String menuSelection = selectGameMenuOption();
+            runSelection(menuSelection);
+        }
+
     }
 
-    static String selectGameMenuOption() {
+    private static String selectGameMenuOption() {
         String selection = "";
-        consoleOutputLine("*******************");
-        consoleOutputLine("* (N)ew Round     *");
-        consoleOutputLine("* (A)dd Player    *");
-        consoleOutputLine("* (R)emove Player *");
-        consoleOutputLine("* (S)tatistics    *");
-        consoleOutputLine("* (Q)uit Game     *");
-        consoleOutputLine("*******************");
+        Console.printLine("*******************");
+        Console.printLine("* (N)ew Round     *");
+        Console.printLine("* (A)dd Player    *");
+        Console.printLine("* (R)emove Player *");
+        Console.printLine("* (S)tatistics    *");
+        Console.printLine("* (Q)uit Game     *");
+        Console.printLine("*******************");
         try {
-            selection = getStringLineInput().toLowerCase().substring(0,1);
+            selection = Console.getStringLine().toLowerCase().substring(0,1);
         }
         catch (StringIndexOutOfBoundsException e) {
-            consoleOutputLine("No Selection");
+            Console.printLine("No Selection");
             selection = "";
         }
         return selection;
 
     }
 
-    void newRound() {
+    private void runSelection(String selection) {
+        switch (selection) {
+            case "n":
+                newRound();
+                break;
+            case "a":
+                addPlayer(queryNewPlayerName(), STANDARDBANKROLL);
+                break;
+            case "r":
+                removePlayerIfItsNotTheDealer(selectPlayerToRemove());
+                break;
+            case "s":
+                showPlayerStats();
+                break;
+            case "q":
+                quitGame();
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
+    private void newRound() {
         Round round = new Round(this);
         rounds.add(round);
     }
 
-    void addPlayer(String name, Integer bankroll) {
+    private void addPlayer(String name, Integer bankroll) {
         Player player = new Player(name, bankroll);
         players.add(player);
     }
 
-    void removePlayerIfItsNotTheDealer(Player player) {
+    private void removePlayerIfItsNotTheDealer(Player player) {
         if (player.equals(players.get(0))) {
             return;
         } else {
@@ -59,22 +88,49 @@ class Game extends Main {
 
     }
 
-    void showPlayerStats() {
+    private void showPlayerStats() {
         for (Player player : players) {
-            consoleOutputLine("Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
+            Console.printLine("Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
         }
     }
 
-    void quitGame() {
+    private void quitGame() {
         setGameIsActive(false);
-        consoleOutputLine("Good Game, Bye");
+        Console.printLine("Good Game, Bye");
     }
 
-    public Boolean getGameIsActive() {
+
+
+    private static String queryNewPlayerName() {
+        Console.printLine("New Player Name: ");
+        return Console.getStringLine();
+    }
+
+    private Player selectPlayerToRemove() {
+        if (players.size() == 1) {
+            Console.printLine("No Player to Remove");
+            return players.get(0);
+        }
+        Console.printLine("0 None (Cancel)");
+        for (int i = 1; i < players.size(); i++) {
+            Console.printLine(i + " " + players.get(i).getName());
+        }
+        Integer integerInput = Console.getInteger();
+        if (integerInput >= 1 && integerInput < players.size()) {
+            return players.get(integerInput);
+        } else {
+            return players.get(0);
+        }
+    }
+
+
+
+    private Boolean getGameIsActive() {
         return gameIsActive;
     }
 
-    public void setGameIsActive(final Boolean gameIsActive) {
+    private void setGameIsActive(Boolean gameIsActive) {
         this.gameIsActive = gameIsActive;
     }
+
 }

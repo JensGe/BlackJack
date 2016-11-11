@@ -18,18 +18,15 @@ public class Player {
         this.name = name;
         this.bankroll = bankroll;
     }
-
     public Player() {
         this.name = "Dealer";
         this.isDealer = true;
         this.bankroll = 0;
     }
 
-
     void drawCard(Card card) {
         this.hand.add(card);
     }
-
 
     public ArrayList<Card> getHand() {
         return hand;
@@ -50,7 +47,6 @@ public class Player {
         handStringBuilder.append(hand.get(hand.size()-1).getName());
         return handStringBuilder.toString();
     }
-
 
     public Integer getBankroll() {
         return bankroll;

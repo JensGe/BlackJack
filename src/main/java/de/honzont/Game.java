@@ -44,7 +44,6 @@ class Game implements Console {
         return selection;
 
     }
-
     private void runSelection(String selection) {
         switch (selection) {
             case "n":
@@ -67,18 +66,14 @@ class Game implements Console {
         }
     }
 
-
-
     private void newRound() {
         Round round = new Round(this);
         rounds.add(round);
     }
-
     private void addPlayer(String name, Integer bankroll) {
         Player player = new Player(name, bankroll);
         players.add(player);
     }
-
     private void removePlayerIfItsNotTheDealer(Player player) {
         if (player.equals(players.get(0))) {
             return;
@@ -87,25 +82,20 @@ class Game implements Console {
         }
 
     }
-
     private void showPlayerStats() {
         for (Player player : players) {
             Console.printLine("Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
         }
     }
-
     private void quitGame() {
         setGameIsActive(false);
         Console.printLine("Good Game, Bye");
     }
 
-
-
     private static String queryNewPlayerName() {
         Console.printLine("New Player Name: ");
         return Console.getStringLine();
     }
-
     private Player selectPlayerToRemove() {
         if (players.size() == 1) {
             Console.printLine("No Player to Remove");
@@ -123,12 +113,9 @@ class Game implements Console {
         }
     }
 
-
-
     private Boolean getGameIsActive() {
         return gameIsActive;
     }
-
     private void setGameIsActive(Boolean gameIsActive) {
         this.gameIsActive = gameIsActive;
     }

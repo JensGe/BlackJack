@@ -7,28 +7,23 @@ import java.util.Scanner;
  */
 interface Console {
 
-    static void printLine(String output) {
-        System.out.println("BlackJack > " + output);
-    }
-
-
     static void print() {
         System.out.print("BlackJack > ");
     }
-
+    static void printLine(String output) {
+        System.out.println("BlackJack > " + output);
+    }
 
     static String getStringLine() {
         Scanner stringLineScanner = new Scanner(System.in);
         print();
         return stringLineScanner.nextLine();
     }
-
     static String getString() {
         Scanner stringScanner = new Scanner(System.in);
         print();
         return stringScanner.next();
     }
-
     static Integer getInteger() {
         Scanner integerScanner = new Scanner(System.in);
         print();

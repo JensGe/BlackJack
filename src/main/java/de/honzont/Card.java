@@ -7,11 +7,6 @@ public class Card {
     private String name;
     private Integer value;
 
-    /**
-     *
-     * @param name card name
-     * @param value value of card
-     */
     public Card(String name, Integer value) {
         this.name = name;
         this.value = value;

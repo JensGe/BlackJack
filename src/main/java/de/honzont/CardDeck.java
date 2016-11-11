@@ -9,10 +9,6 @@ import java.util.Collections;
 public class CardDeck {
     ArrayList<Card> deck = new ArrayList<>();
 
-    /**
-     * Card Deck Content Creation
-     *
-     */
     public CardDeck() {
         deck.add(new Card("Two of Diamonds", 2));
         deck.add(new Card("Three of Diamonds", 3));
@@ -68,9 +64,6 @@ public class CardDeck {
         deck.add(new Card("Ace of Spades", 11));
       }
 
-    /**
-     * Shuffles the Deck
-     */
     public void shuffleDeck() {
         Collections.shuffle(deck);
     }

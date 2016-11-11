@@ -2,6 +2,7 @@ package main.java.de.honzont;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 /**
  * Created by JensGe on 03.11.2016.
@@ -38,6 +39,7 @@ class Game implements Console {
             selection = Console.getStringLine().toLowerCase().substring(0,1);
         }
         catch (StringIndexOutOfBoundsException e) {
+            Logger.getAnonymousLogger(String.valueOf(e));
             Console.printLine("No Selection");
             selection = "";
         }

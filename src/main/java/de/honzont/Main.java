@@ -7,8 +7,16 @@ import java.util.Scanner;
 
 public class Main {
 
+    private static void main() {
+        throw new IllegalAccessError("Utility class");
+    };
+
     public static void main(final String[] args) {
-        Game blackjack = new Game();
+        new Game();
     }
+
+
+    }
+
 }
 

@@ -8,7 +8,7 @@ import java.util.Collections;
  */
 class Round implements Console{
     private CardDeck deck = new CardDeck();
-    private Integer bustAndStayCounter;                                                 // Refactoren zu hitCounter
+    private Integer hitCounter;
     private ArrayList<Player> playersByHandValue = new ArrayList<>();
 
     Round(final Game game) {
@@ -17,12 +17,12 @@ class Round implements Console{
         deck.shuffleDeck();
         dealFirstCards(game.players);
         dealSecondCards(game.players);
-        bustAndStayCounter = 0;
+        hitCounter = game.players.size() - 1;
         do {
             for (int i=1; i < game.players.size(); i++) {
                 runPlayerTurn(game.players.get(i));
             }
-        } while (bustAndStayCounter +1 < game.players.size());
+        } while (hitCounter > 0);
         runDealerTurn(game.players);
         rankNonBustedPlayers(game.players);
         setFinalPlayerStates(playersByHandValue, game.players);
@@ -42,16 +42,16 @@ class Round implements Console{
         }
     }
     private void dealFirstCards(ArrayList<Player> players) {
-        for (int i = 0; i < players.size(); i++) {
+        for (Player player : players) {
             Card card = deck.getCard();
-            players.get(i).drawCard(card);
+            player.drawCard(card);
             String printCardName;
-            if (players.get(i).getDealer()) {
+            if (player.getDealer()) {
                 printCardName = "hidden Card";
             } else {
                 printCardName = card.getName();
             }
-            Console.printLine(players.get(i).getName() + " draws a " + printCardName);
+            Console.printLine(player.getName() + " draws a " + printCardName);
         }
     }
     private void dealSecondCards(ArrayList<Player> players) {
@@ -103,6 +103,7 @@ class Round implements Console{
             }
         }
         Collections.sort(playersByHandValue, new PlayerComparator() {
+            @Override
             public int compare(Player self, Player other) {
                 return super.compare(self, other);
             }
@@ -154,21 +155,18 @@ class Round implements Console{
     private void checkStay(Player player) {                                            //TODO Aufsplitten
         if ("s".equals(Console.getString().toLowerCase().substring(0, 1))) {
             player.setPlayerState(PlayerState.STAYED);
-            bustAndStayCounter++;
+            hitCounter--;
         }
     }
     private void checkBust(Player player) {                                                   // TODO Aufsplitten
         if (player.getHandValue() > 21 && player.getPlayerState() == PlayerState.ACTIVE) {
             player.setPlayerState(PlayerState.BUSTED);
-            bustAndStayCounter++;
+            hitCounter--;
             Console.printLine(player.getName() + ", you are BUSTED with " + player.getHandValue());
         }
     }
     private boolean checkForSingleWinner(ArrayList<Player> playersByHandValue) {
-        if (playersByHandValue.size() > 1) {
-            return playersByHandValue.get(0).getHandValue() > playersByHandValue.get(1).getHandValue();
-        }
-        return true;
+        return playersByHandValue.size() <= 1 || playersByHandValue.get(0).getHandValue() > playersByHandValue.get(1).getHandValue();
     }
     private boolean checkDealerHasTopHand(ArrayList<Player> playersByHandValue, ArrayList<Player> players) {
         return playersByHandValue.get(0).getHandValue().equals(players.get(0).getHandValue());

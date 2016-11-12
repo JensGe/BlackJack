@@ -29,6 +29,9 @@ public class RoundTest {
 
     }
 
+    /**
+     * Tests method testsetPlayersToActive
+     */
     @Test
     public void testsetPlayersToActive() {
         testplayerarraylist.get(0).setPlayerState(PlayerState.BUSTED);
@@ -38,6 +41,14 @@ public class RoundTest {
         for (int i = 0; i < testplayerarraylist.size(); i++) {
             assertEquals(testplayerarraylist.get(i).getPlayerState(), PlayerState.ACTIVE );
         }
+
+    }
+
+    /**
+     * Tests method rankNonBustedPlayersTest
+     */
+    @Test
+    public void rankNonBustedPlayersTest() {
 
     }
 

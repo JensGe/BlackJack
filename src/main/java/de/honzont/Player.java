@@ -15,16 +15,27 @@ public class Player {
     private PlayerState playerState = PlayerState.ACTIVE;
 
 
+    /**
+     * @param name
+     * @param bankroll
+     */
     public Player(String name, Integer bankroll) {
         this.name = name;
         this.bankroll = bankroll;
     }
+
+    /**
+     * If no Arguments are pushed, a Dealer is created
+     */
     public Player() {
         this.name = "Dealer";
         this.isDealer = true;
         this.bankroll = 0;
     }
 
+    /**
+     * @param card
+     */
     public void drawCard(Card card) {
         this.hand.add(card);
     }

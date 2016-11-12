@@ -9,10 +9,10 @@ import java.util.logging.Logger;
  */
 public class Game implements Console {
     ArrayList<Player> players = new ArrayList<>();
-
     private static final int STANDARDBANKROLL = 200;
-    private Boolean gameIsActive;
+    private Boolean gameActive;
     private LinkedList<Round> rounds = new LinkedList<>();
+    private static LinkedList<String> gamemenu = new LinkedList<>();
 
     /**
      * Starts the Game with
@@ -21,38 +21,46 @@ public class Game implements Console {
      * Loops until Active Variable is set to False
      */
     public Game() {
-        Console.printLine("Starting Game ...");
-        gameIsActive = true;
-        players.add(new Player());              // Add Dealer at Position 0
-
-        while (getGameIsActive()) {
-            String menuSelection = selectGameMenuOption();
-            runSelection(menuSelection);
+        Console.println("Starting Game ...");
+        loadGameMenu();
+        setGameActive(true);
+        createDealer();
+        while (getGameActive()) {
+            showGameMenu();
+            runGameMenuSelection(getGameMenuSelection());
         }
-
     }
 
-    private static String selectGameMenuOption() {
+    private void loadGameMenu() {
+        gamemenu.add("*******************");
+        gamemenu.add("* (N)ew Round     *");
+        gamemenu.add("* (A)dd Player    *");
+        gamemenu.add("* (R)emove Player *");
+        gamemenu.add("* (S)tatistics    *");
+        gamemenu.add("* (Q)uit Game     *");
+        gamemenu.add("*******************");
+    }
+    private void createDealer() {
+        players.add(new Player());
+    }
+    private void showGameMenu() {
+        for (String line : gamemenu) {
+            Console.println(line);
+        }
+    }
+    private static String getGameMenuSelection() {
         String selection = "";
-        Console.printLine("*******************");
-        Console.printLine("* (N)ew Round     *");
-        Console.printLine("* (A)dd Player    *");
-        Console.printLine("* (R)emove Player *");
-        Console.printLine("* (S)tatistics    *");
-        Console.printLine("* (Q)uit Game     *");
-        Console.printLine("*******************");
         try {
             selection = Console.getStringLine().toLowerCase().substring(0,1);
         }
         catch (StringIndexOutOfBoundsException e) {
             Logger.getAnonymousLogger(String.valueOf(e));
-            Console.printLine("No Selection");
             selection = "";
         }
         return selection;
 
     }
-    private void runSelection(String selection) {
+    private void runGameMenuSelection(String selection) {
         switch (selection) {
             case "n":
                 newRound();
@@ -70,6 +78,7 @@ public class Game implements Console {
                 quitGame();
                 break;
             default:
+                Console.println("No Selection");
                 break;
         }
     }
@@ -92,26 +101,26 @@ public class Game implements Console {
     }
     private void showPlayerStats() {
         for (Player player : players) {
-            Console.printLine("Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
+            Console.println("Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
         }
     }
     private void quitGame() {
-        setGameIsActive(false);
-        Console.printLine("Good Game, Bye");
+        setGameActive(false);
+        Console.println("Good Game, Bye");
     }
 
     private static String queryNewPlayerName() {
-        Console.printLine("New Player Name: ");
+        Console.println("New Player Name: ");
         return Console.getStringLine();
     }
     private Player selectPlayerToRemove() {
         if (players.size() == 1) {
-            Console.printLine("No Player to Remove");
+            Console.println("No Player to Remove");
             return players.get(0);
         }
-        Console.printLine("0 None (Cancel)");
+        Console.println("0 None (Cancel)");
         for (int i = 1; i < players.size(); i++) {
-            Console.printLine(i + " " + players.get(i).getName());
+            Console.println(i + " " + players.get(i).getName());
         }
         Integer integerInput = Console.getInteger();
         if (integerInput >= 1 && integerInput < players.size()) {
@@ -121,11 +130,11 @@ public class Game implements Console {
         }
     }
 
-    private Boolean getGameIsActive() {
-        return gameIsActive;
+    private Boolean getGameActive() {
+        return gameActive;
     }
-    private void setGameIsActive(Boolean gameIsActive) {
-        this.gameIsActive = gameIsActive;
+    private void setGameActive(Boolean gameActive) {
+        this.gameActive = gameActive;
     }
 
 }

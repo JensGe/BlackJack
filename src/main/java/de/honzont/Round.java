@@ -166,16 +166,14 @@ public class Round implements Console {
     }
     private void checkBust(Player player) {                                                   // TODO Aufsplitten
         if (player.getHandValue() > 21 && player.getPlayerState() == PlayerState.ACTIVE) {
-
             player.setPlayerState(PlayerState.BUSTED);
             hitCounter--;
             Console.println(player.getName() + ", you are BUSTED with " + player.getHandValue());
         }
     }
     private boolean checkForSingleWinner(ArrayList<Player> playersByHandValue) {
-        if (playersByHandValue.size() == 1) {
-            return true;
-        } else return playersByHandValue.get(0).getHandValue() > playersByHandValue.get(1).getHandValue();
+        return playersByHandValue.size() == 1 ||
+                playersByHandValue.get(0).getHandValue() > playersByHandValue.get(1).getHandValue();
     }
 
 

@@ -18,7 +18,7 @@ public class PlayerTest {
 
 
     /**
-     *
+     * Creating testPlayer, testDealer and two TestCards
      */
     @Before
     public void setUp() {
@@ -30,7 +30,7 @@ public class PlayerTest {
     }
 
     /**
-     *
+     * Test Generating Player and Dealer
      */
     @Test
     public void playerTest() {
@@ -46,7 +46,7 @@ public class PlayerTest {
     }
 
     /**
-     *
+     * Test if drawCard()
      */
     @Test
     public void drawTest() {

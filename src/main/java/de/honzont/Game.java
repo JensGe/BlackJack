@@ -44,9 +44,7 @@ public class Game implements Console {
         players.add(new Player());
     }
     private void showGameMenu() {
-        for (String line : gamemenu) {
-            Console.println(line);
-        }
+        gamemenu.forEach(Console::println);
     }
     private static String getGameMenuSelection() {
         String selection = "";
@@ -69,6 +67,7 @@ public class Game implements Console {
                 addPlayer(queryNewPlayerName(), STANDARDBANKROLL);
                 break;
             case "r":
+
                 removePlayerIfItsNotTheDealer(selectPlayerToRemove());
                 break;
             case "s":
@@ -92,9 +91,7 @@ public class Game implements Console {
         players.add(player);
     }
     private void removePlayerIfItsNotTheDealer(Player player) {
-        if (player.equals(players.get(0))) {
-            return;
-        } else {
+        if (!player.equals(players.get(0))) {
             players.remove(player);
         }
 

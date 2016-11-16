@@ -45,11 +45,23 @@ public class Player {
     }
     public Integer getHandValue() {
         Integer handValue = 0;
+        Integer aceCounter = 0;
         for (Card card : hand) {
             handValue += card.getValue();
+            if (card.getName().contains("Ace")) {
+                aceCounter++;
+            }
+        }
+        while (handValue > 21 && aceCounter > 0) {
+            handValue -= 10;
+            aceCounter--;
         }
         return handValue;
     }
+
+
+
+
     public String getHandAsString() {
         StringBuilder handStringBuilder = new StringBuilder();
         for (int i = 0; i+1 < hand.size(); i++) {

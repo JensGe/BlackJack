@@ -46,7 +46,7 @@ public class Round implements Console {
             }
 
         }
-    }
+
     private void dealFirstCards(ArrayList<Player> players) {
         for (Player player : players) {
             Card card = deck.getCard();

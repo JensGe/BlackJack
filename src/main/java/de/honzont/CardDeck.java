@@ -10,8 +10,7 @@ public class CardDeck {
     ArrayList<Card> deck = new ArrayList<>();
 
     /**
-     * Card Deck Content Creation
-     *
+     * Generates a Carddeck containing 52 cards
      */
     public CardDeck() {
         deck.add(new Card("Two of Diamonds", 2));
@@ -69,7 +68,7 @@ public class CardDeck {
       }
 
     /**
-     * Shuffles the Deck
+     *  Shuffles the Carddeck
      */
     public void shuffleDeck() {
         Collections.shuffle(deck);

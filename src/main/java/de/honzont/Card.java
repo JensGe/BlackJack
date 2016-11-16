@@ -8,9 +8,8 @@ public class Card {
     private Integer value;
 
     /**
-     *
-     * @param name card name
-     * @param value value of card
+     * @param name
+     * @param value
      */
     public Card(String name, Integer value) {
         this.name = name;

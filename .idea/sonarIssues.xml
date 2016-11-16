@@ -8,6 +8,11 @@
             <set />
           </value>
         </entry>
+        <entry key="/fragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/sonar-project.properties">
           <value>
             <set />
@@ -83,7 +88,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/de/honzont/Console.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/de/honzont/Game.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/de/honzont/List.java">
           <value>
             <set />
           </value>
@@ -94,6 +109,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/de/honzont/Player.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/de/honzont/PlayerState.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/de/honzont/PlayerTest.java">
           <value>
             <set />
           </value>
@@ -119,6 +144,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/de/honzont/PlayerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/de/honzont/RoundTest.java">
           <value>
             <set />
           </value>

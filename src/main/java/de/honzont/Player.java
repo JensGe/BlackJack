@@ -1,7 +1,7 @@
 package main.java.de.honzont;
 
 import java.util.ArrayList;
-import static main.java.de.honzont.Main.consoleOutputLine;
+import java.util.List;
 
 /**
 * Created by JensGe on 03.11.2016.
@@ -16,8 +16,8 @@ public class Player {
 
 
     /**
-     * @param name name of a player
-     * @param bankroll bankroll of a player
+     * @param name
+     * @param bankroll
      */
     public Player(String name, Integer bankroll) {
         this.name = name;
@@ -25,7 +25,7 @@ public class Player {
     }
 
     /**
-     * If no parameter (name, bankroll) is passed, a Dealer is created
+     * If no Arguments are pushed, a Dealer is created
      */
     public Player() {
         this.name = "Dealer";
@@ -33,6 +33,16 @@ public class Player {
         this.bankroll = 0;
     }
 
+    /**
+     * @param card
+     */
+    public void drawCard(Card card) {
+        this.hand.add(card);
+    }
+
+    public List<Card> getHand() {
+        return hand;
+    }
     public Integer getHandValue() {
         Integer handValue = 0;
         for (Card card : hand) {
@@ -40,7 +50,6 @@ public class Player {
         }
         return handValue;
     }
-
     public String getHandAsString() {
         StringBuilder handStringBuilder = new StringBuilder();
         for (int i = 0; i+1 < hand.size(); i++) {
@@ -51,7 +60,6 @@ public class Player {
         return handStringBuilder.toString();
     }
 
-    /* Standard Getter & Setter */
     public Integer getBankroll() {
         return bankroll;
     }
@@ -70,29 +78,15 @@ public class Player {
     public void setDealer(Boolean dealer) {
         isDealer = dealer;
     }
-    public ArrayList<Card> getHand() {
-        return hand;
-    }
-
-    /**
-     * @param card
-     */
-    public void drawCard(Card card) {
-        this.hand.add(card);
-    }
-
     public Integer getBet() {
         return bet;
     }
     public void setBet(Integer bet) {
         this.bet = bet;
     }
-
-
     public PlayerState getPlayerState() {
         return playerState;
     }
-
     public void setPlayerState(PlayerState playerState) {
         this.playerState = playerState;
     }

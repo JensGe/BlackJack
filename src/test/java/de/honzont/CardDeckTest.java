@@ -1,13 +1,9 @@
 package test.java.de.honzont;
 
-import main.java.de.honzont.Card;
 import main.java.de.honzont.CardDeck;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Jens on 11.11.2016.

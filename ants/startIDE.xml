@@ -1,0 +1,17 @@
+<project name="StartIDE" default="init" basedir="../">
+    <description>
+        StartUp Ant
+    </description>
+    <property name="src" location="../src"/>
+    <property name="build" location=""/>
+    <property name="dist"  location="../dist"/>
+    <property name="main"  location="${src}/main/java/de/honzont"/>
+    <property name="test"  location="${src}/test/java/de/honzont"/>
+
+
+    <target name="init">
+
+    </target>
+
+
+</project>

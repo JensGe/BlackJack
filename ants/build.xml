@@ -1,0 +1,73 @@
+<project name="BlackJackAnt" default="dist" basedir="..">
+    <description>
+        Simple Build with Ant
+    </description>
+
+    <property name="version" value="0.1."/>
+    <property name="src" value="src"/>
+    <property name="bin" value="bin"/>
+    <property name="lib" value="lib"/>
+    <property name="dist"  location="dist"/>
+    <property name="main"  location="${src}/main/java/de/honzont"/>
+    <property name="test"  location="${src}/test/java/de/honzont"/>
+
+    <!-- JUnit classpath. -->
+    <path id="junit.class.path">
+        <fileset dir="${lib}/test" includes="*.jar"/>
+        <pathelement location="${main}"/>
+        <pathelement location="${test}"/>
+    </path>
+
+
+    <target name="init">
+        <!-- Clean Folder and Files -->
+        <delete>
+            <fileset dir="ants/error_reports">
+                <include name="*"/>
+            </fileset>
+        </delete>
+        <delete dir="bin"/>
+        <mkdir dir="${bin}"/>
+
+        <!-- Create Buildnumber for Distributionfile-->
+        <buildnumber file="ants/build.number" />
+
+    </target>
+
+    <target name="compile" depends="init" description="compile the source">
+        <!-- Compile Javacode from ${src} into ${build} -->
+        <javac srcdir="${src}" destdir="${bin}" />
+    </target>
+
+
+    <diagnostics taskname="test"/>
+
+    <target name="test" depends="compile">
+        <property name="junit.path" refid="junit.class.path"/>
+        <echo message="JUnit ClassPath is: ${junit.path}"/>
+        <junit>
+            <classpath refid="junit.class.path"/>
+            <batchtest todir="ants/error_reports" >
+                <fileset dir="${test}">
+                    <include name="**/*Test*"/>
+                </fileset>
+            </batchtest>
+            <formatter type="plain"/>
+        </junit>
+    </target>
+
+    <target name="upload" depends="test" description="Commit to Git Develop Branch">
+        <!--TODO -->
+    </target>
+
+    <target name="dist" depends="test" description="generate the distribution">
+        <!-- Put everything in ${bin} into the BlackJack-${DSTAMP}.jar file -->
+        <jar jarfile="dist/lib/BlackJack-${version}${build.number}.jar" basedir="bin/main">
+            <manifest>
+                <attribute name="Main-Class" value="main.java.de.honzont.Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+
+</project>

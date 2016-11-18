@@ -61,7 +61,7 @@ public class Player {
         return handStringBuilder.toString();
     }
     public void clearHand() {
-        for (int i = 0; i <= hand.size(); i++) {
+        for (int i = -1; i <= hand.size(); i++) {
             hand.remove(0);
         }
     }

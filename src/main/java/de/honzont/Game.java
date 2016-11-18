@@ -15,23 +15,20 @@ public class Game implements Console {
     private static LinkedList<String> gamemenu = new LinkedList<>();
 
     /**
-     * Starts the Game with
-     * Set Active Variable to True
-     * Add Dealer
-     * Loops until Active Variable is set to False
+     * Constructor for a new Game
      */
     public Game() {
-        Console.println("Starting Game ...");
-        loadGameMenu();
+        Console.print("Starting Game ...");
+        createGameMenu();
         setGameActive(true);
         createDealer();
         while (getGameActive()) {
-            showGameMenu();
+            printGameMenu();
             runGameMenuSelection(getGameMenuSelection());
         }
     }
 
-    private void loadGameMenu() {
+    private void createGameMenu() {
         gamemenu.add("*******************");
         gamemenu.add("* (N)ew Round     *");
         gamemenu.add("* (A)dd Player    *");
@@ -43,8 +40,8 @@ public class Game implements Console {
     private void createDealer() {
         players.add(new Player());
     }
-    private void showGameMenu() {
-        gamemenu.forEach(Console::println);
+    private void printGameMenu() {
+        gamemenu.forEach(Console::print);
     }
     private static String getGameMenuSelection() {
         String selection = "";
@@ -77,7 +74,7 @@ public class Game implements Console {
                 quitGame();
                 break;
             default:
-                Console.println("No Selection");
+                Console.print("No Selection");
                 break;
         }
     }
@@ -98,26 +95,26 @@ public class Game implements Console {
     }
     private void showPlayerStats() {
         for (Player player : players) {
-            Console.println("Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
+            Console.print("Player: " + player.getName() + ", Bankroll: " + player.getBankroll());
         }
     }
     private void quitGame() {
         setGameActive(false);
-        Console.println("Good Game, Bye");
+        Console.print("Good Game, Bye");
     }
 
     private static String queryNewPlayerName() {
-        Console.println("New Player Name: ");
+        Console.print("New Player Name: ");
         return Console.getStringLine();
     }
     private Player selectPlayerToRemove() {
         if (players.size() == 1) {
-            Console.println("No Player to Remove");
+            Console.print("No Player to Remove");
             return players.get(0);
         }
-        Console.println("0 None (Cancel)");
+        Console.print("0 None (Cancel)");
         for (int i = 1; i < players.size(); i++) {
-            Console.println(i + " " + players.get(i).getName());
+            Console.print(i + " " + players.get(i).getName());
         }
         Integer integerInput = Console.getInteger();
         if (integerInput >= 1 && integerInput < players.size()) {

@@ -1,12 +1,21 @@
 package main.java.de.honzont;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
  * Created by Jensge on 11.11.2016.
+ * The Console is the Interface between Game and User
  */
 interface Console {
+
+
+
+    /**
+     * @param output
+     */
+    static void print(String output) {
+        System.out.print("BlackJack > " + output + '\n');
+    }
 
     /**
      * Standard Consoleoutput with BlackJack Prefix
@@ -15,13 +24,6 @@ interface Console {
         System.out.print("BlackJack > ");
     }
 
-    /**
-     * @param output
-     */
-    static void println(String output) {
-        print();
-        System.out.println(output);
-    }
 
     /**
      * @return

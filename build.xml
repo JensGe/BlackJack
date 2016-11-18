@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<project>
-    <target name="New">
-        Todos:
-        SonarQube Server Starten
-        Scanner laufen lassen
-        Dashboard aufrufen
-    </target>
-</project>

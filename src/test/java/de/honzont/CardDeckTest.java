@@ -19,8 +19,6 @@ public class CardDeckTest {
             testdeck.getCard();
         }
         assertEquals("Ace of Spades", testdeck.getCard().getName());
-        testdeck.getCard();
-
     }
 
 }

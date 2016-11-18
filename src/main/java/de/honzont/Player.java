@@ -15,27 +15,16 @@ public class Player {
     private PlayerState playerState = PlayerState.ACTIVE;
 
 
-    /**
-     * @param name
-     * @param bankroll
-     */
     public Player(String name, Integer bankroll) {
         this.name = name;
         this.bankroll = bankroll;
     }
-
-    /**
-     * If no Arguments are pushed, a Dealer is created
-     */
     public Player() {
         this.name = "Dealer";
         this.isDealer = true;
         this.bankroll = 0;
     }
 
-    /**
-     * @param card
-     */
     public void drawCard(Card card) {
         this.hand.add(card);
     }
@@ -43,6 +32,7 @@ public class Player {
     public List<Card> getHand() {
         return hand;
     }
+
     public Integer getHandValue() {
         Integer handValue = 0;
         Integer aceCounter = 0;
@@ -58,18 +48,22 @@ public class Player {
         }
         return handValue;
     }
-
-
-
-
     public String getHandAsString() {
         StringBuilder handStringBuilder = new StringBuilder();
+        handStringBuilder.append("");
         for (int i = 0; i+1 < hand.size(); i++) {
             handStringBuilder.append(hand.get(i).getName());
             handStringBuilder.append(", ");
         }
-        handStringBuilder.append(hand.get(hand.size()-1).getName());
+        if (hand.size() > 0) {
+            handStringBuilder.append(hand.get(hand.size()-1).getName());
+        }
         return handStringBuilder.toString();
+    }
+    public void clearHand() {
+        for (int i = 0; i <= hand.size(); i++) {
+            hand.remove(0);
+        }
     }
 
     public Integer getBankroll() {

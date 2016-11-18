@@ -10,6 +10,7 @@
     <property name="dist"  location="dist"/>
     <property name="main"  location="${src}/main/java/de/honzont"/>
     <property name="test"  location="${src}/test/java/de/honzont"/>
+    <diagnostics taskname="test"/>
 
     <!-- JUnit classpath. -->
     <path id="junit.class.path">
@@ -40,7 +41,7 @@
     </target>
 
 
-    <diagnostics taskname="test"/>
+
 
     <target name="test" depends="compile">
         <property name="junit.path" refid="junit.class.path"/>

@@ -2,13 +2,14 @@ package test.java.de.honzont;
 
 import main.java.de.honzont.Card;
 import main.java.de.honzont.Player;
-
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by JensGe on 04.11.2016.
+ * Part of Project BlackJack
  */
 public class PlayerTest {
     private Player testPlayer;
@@ -86,6 +87,7 @@ public class PlayerTest {
 
     @Test
     public void getHandAsStringTest() {
+        assertEquals("", testPlayer.getHandAsString());
         testPlayer.drawCard(testCard1);
         testPlayer.drawCard(testCard2);
         String testHandString = "Four of Clubs, Ace of Spades";
@@ -93,8 +95,11 @@ public class PlayerTest {
     }
 
 
-
-
-
-
+    @Test
+    public void discardHandsTest() {
+        testPlayer.drawCard(testCard1);
+        testPlayer.drawCard(testCard2);
+        testPlayer.clearHand();
+            assertEquals("" , testPlayer.getHandAsString());
+        }
 }

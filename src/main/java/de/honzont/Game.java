@@ -49,7 +49,7 @@ public class Game implements Console {
             selection = Console.getStringLine().toLowerCase().substring(0,1);
         }
         catch (StringIndexOutOfBoundsException e) {
-            Logger.getAnonymousLogger(String.valueOf(e));
+            Logger.getLogger(String.valueOf(e));
             selection = "";
         }
         return selection;

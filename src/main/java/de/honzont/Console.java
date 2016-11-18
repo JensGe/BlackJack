@@ -1,6 +1,8 @@
 package main.java.de.honzont;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 /**
  * Created by Jensge on 11.11.2016.
@@ -48,7 +50,14 @@ interface Console {
      */
     static Integer getInteger() {
         Scanner integerScanner = new Scanner(System.in);
+        Integer intInput;
         print();
-        return integerScanner.nextInt();
+        try {
+            intInput = integerScanner.nextInt();
+        } catch (InputMismatchException e) {
+            Logger.getLogger(String.valueOf(e));
+            intInput = 0;
+        }
+        return intInput;
     }
 }

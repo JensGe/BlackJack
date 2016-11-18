@@ -26,9 +26,11 @@ public class Round implements Console {
             }
         } while (outOfPlayCounter < game.players.size() - 1);
         runDealerTurn(game.players);
-        rankNonBustedPlayers(game.players);
-        setFinalPlayerStates(playersByHandValue, game.players);
-        printScores(playersByHandValue);
+        if (checkIfAllBusted(playersByHandValue)) {
+            rankNonBustedPlayers(game.players);
+            setFinalPlayerStates(playersByHandValue, game.players);
+            printScores(playersByHandValue);
+        }
         setBetsAndBankrolls(game.players);
         discardHands(game.players);
     }
@@ -41,10 +43,16 @@ public class Round implements Console {
 
     private void askPlayersForBet(ArrayList<Player> players) {
         for (int i = 1; i < players.size(); i++) {
-            Console.print(players.get(i).getName() + ", choose your bet: ");
-            players.get(i).setBankroll(Console.getInteger());
+            Integer latentBet = players.get(i).getBankroll() + 1;
+            while (latentBet > players.get(i).getBankroll()) {
+                Console.print(players.get(i).getName() + ", choose your bet: ");
+                latentBet = Console.getInteger();
+                if (latentBet > players.get(i).getBankroll()) {
+                    Console.print("No Valid Choice");
+                    }
+                }
+            players.get(i).setBet(latentBet);
             }
-
         }
 
     private void dealCardToEveryone(ArrayList<Player> players) {
@@ -97,10 +105,16 @@ public class Round implements Console {
         while (dealer.getHandValue() < 17) {
             dealer.drawCard(deck.getCard());
         }
-        checkBust(dealer);
+        if (checkBust(dealer)) {
+            setBust(dealer);
+        };
         Console.print(dealer.getName() + "'s final Hand: " + dealer.getHandAsString());
         Console.print(dealer.getName() + "'s final Handvalue: " + dealer.getHandValue());
     }
+    private Boolean checkIfAllBusted(ArrayList<Player> players) {
+        return (players.size()<1);
+    }
+
     public void rankNonBustedPlayers(ArrayList<Player> players) {
         for (Player player : players) {
             if (player.getPlayerState() != PlayerState.BUSTED) {
@@ -133,7 +147,7 @@ public class Round implements Console {
     }
     private void printScores(ArrayList<Player> playersByHandValue) {
         for (Player player: playersByHandValue) {
-            Console.print(player.getName() + "'s Handvalue" + player.getHandValue() + " and State: " + player.getPlayerState());
+            Console.print(player.getName() + "'s Handvalue " + player.getHandValue() + " and State: " + player.getPlayerState());
         }
     }
     private void setBetsAndBankrolls(ArrayList<Player> players) {

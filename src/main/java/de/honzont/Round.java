@@ -8,7 +8,7 @@ import java.util.Collections;
  */
 public class Round implements Console {
     private CardDeck deck = new CardDeck();
-    private ArrayList<Player> playersByHandValue = new ArrayList<>();
+    private ArrayList<Player> nonBustedPlayers = new ArrayList<>();
 
     /**
      * @param game
@@ -17,14 +17,14 @@ public class Round implements Console {
         prepareRound(game.players);
         runAllPlayerTurns(game.players);
         runDealerTurn(game.players.get(0));
-        calculateResults(game.players);
+        calculateListOfResults(game.players);
         presentResults();
 
 /* 
         rankNonBustedPlayers(game.players);
-        if (checkIfAllBusted(playersByHandValue)) {
-            setFinalPlayerStates(playersByHandValue, game.players);
-            printScores(playersByHandValue);
+        if (checkIfAllBusted(nonBustedPlayers)) {
+            setFinalPlayerStates(nonBustedPlayers, game.players);
+            printScores(nonBustedPlayers);
         } else {
             Console.print("Everyone Busted.");
         }
@@ -57,10 +57,60 @@ public class Round implements Console {
         Console.print(dealer.getName() + "'s final Handvalue: " + dealer.getHandValue());
     }
 
-    private void calculateResults(ArrayList<Player> players) {
-        createOrderedPlayerListWithoutBustedPlayers();
-
+    private void calculateListOfResults(ArrayList<Player> players) {
+        listNonBustedPlayers(players);
+        orderArrayList(nonBustedPlayers);
+        checkClosingRoundSituation(nonBustedPlayers, players);
     }
+
+
+
+    /* calculateListOfResults() Methods */
+    private void listNonBustedPlayers(ArrayList<Player> players) {
+        for (Player player : players) {
+            if (player.getPlayerState() != PlayerState.BUSTED) {
+                nonBustedPlayers.add(player);
+            }
+        }
+    }
+    private void orderArrayList(ArrayList<Player> nonBustedPlayers) {
+        Collections.sort(nonBustedPlayers, new PlayerComparator() {
+            @Override
+            public int compare(Player self, Player other) {
+                return super.compare(self, other);
+            }
+        });
+    }
+    private String checkClosingRoundSituation(ArrayList<Player> nonBustedPlayers, ArrayList<Player> players) {
+        String outcome;
+        if (checkIfAllBusted(nonBustedPlayers)) {
+            outcome = "All Busted";
+        }
+        if (checkForSingleWinner(nonBustedPlayers)) {
+            outcome = "One Player wins alone";
+        } else {
+            outcome = "More than one Player has the best Hand";
+        }
+        if (checkDealerHasTopHand(nonBustedPlayers, players)) {
+            outcome += ", one of them is the Dealer.";
+        } else {
+            outcome += ", the Dealer is not within.";
+        }
+        return outcome;
+    }
+
+
+    private Boolean checkIfAllBusted(ArrayList<Player> nonBustedPlayers) {
+        return (nonBustedPlayers.size()==0);
+    }
+    private boolean checkForSingleWinner(ArrayList<Player> nonBustedPlayers) {
+        return nonBustedPlayers.size() == 1 ||
+                nonBustedPlayers.get(0).getHandValue() > nonBustedPlayers.get(1).getHandValue();
+    }
+    private boolean checkDealerHasTopHand(ArrayList<Player> nonBustedPlayers, ArrayList<Player> players) {
+        return nonBustedPlayers.get(0).getHandValue().equals(players.get(0).getHandValue());
+    }
+
     /* prepareRound() Methods */
 
     public void resetPlayerState(ArrayList<Player> players) {
@@ -127,26 +177,7 @@ public class Round implements Console {
 
 
 
-    public void rankNonBustedPlayers(ArrayList<Player> players) {
-        for (Player player : players) {
-            if (player.getPlayerState() != PlayerState.BUSTED) {
-                playersByHandValue.add(player);
-            }
-        }
-        Collections.sort(playersByHandValue, new PlayerComparator() {
-            @Override
-            public int compare(Player self, Player other) {
-                return super.compare(self, other);
-            }
-        });
 
-        for (Player player : playersByHandValue) {
-            Console.print(player.getName() + " " + player.getHandValue());
-        }
-    }
-    private Boolean checkIfAllBusted(ArrayList<Player> players) {
-        return (players.size()>0);
-    }
     private void setFinalPlayerStates(ArrayList<Player> playersByHandValue, ArrayList<Player> players) {
         PlayerState drawOrWin;
         if (checkForSingleWinner(playersByHandValue)) {
@@ -217,13 +248,7 @@ public class Round implements Console {
     }
 
 
-    private boolean checkForSingleWinner(ArrayList<Player> playersByHandValue) {
-        return playersByHandValue.size() == 1 ||
-                playersByHandValue.get(0).getHandValue() > playersByHandValue.get(1).getHandValue();
-    }
-    private boolean checkDealerHasTopHand(ArrayList<Player> playersByHandValue, ArrayList<Player> players) {
-        return playersByHandValue.get(0).getHandValue().equals(players.get(0).getHandValue());
-    }
+
 
     private void setSingleWinner(ArrayList<Player> playersByHandValue) {
         playersByHandValue.get(0).setPlayerState(PlayerState.WINNER);

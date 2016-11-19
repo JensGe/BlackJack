@@ -48,7 +48,7 @@ interface Console {
     /**
      * @return
      */
-    static Integer getInteger() {
+    static Integer getInteger(int min, int max) {
         Scanner integerScanner = new Scanner(System.in);
         Integer intInput;
         print();

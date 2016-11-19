@@ -8,24 +8,19 @@ import java.util.Collections;
  */
 public class Round implements Console {
     private CardDeck deck = new CardDeck();
-    private Integer outOfPlayCounter = 0;
     private ArrayList<Player> playersByHandValue = new ArrayList<>();
 
     /**
      * @param game
      */
     public Round(final Game game) {
-        setPlayersToActive(game.players);
-        askPlayersForBet(game.players);
-        deck.shuffleDeck();
-        dealCardToEveryone(game.players);
-        dealCardOnlyToPlayers(game.players);
-        do {
-            for (int i=1; i < game.players.size(); i++) {
-                runPlayerTurn(game.players.get(i));
-            }
-        } while (outOfPlayCounter < game.players.size() - 1);
-        runDealerTurn(game.players);
+        prepareRound(game.players);
+        runAllPlayerTurns(game.players);
+        runDealerTurn(game.players.get(0));
+        calculateResults(game.players);
+        presentResults();
+
+/* 
         rankNonBustedPlayers(game.players);
         if (checkIfAllBusted(playersByHandValue)) {
             setFinalPlayerStates(playersByHandValue, game.players);
@@ -34,10 +29,41 @@ public class Round implements Console {
             Console.print("Everyone Busted.");
         }
         setBetsAndBankrolls(game.players);
-        discardHands(game.players);
+        discardHands(game.players); */
     }
 
-    public static void setPlayersToActive(ArrayList<Player> players) {
+    private void prepareRound(ArrayList<Player> players) {
+        resetPlayerState(players);
+        askPlayersForBet(players);
+        deck.shuffleDeck();
+        dealCardToEveryone(players);
+        dealCardOnlyToPlayers(players);
+    }
+
+    private void runAllPlayerTurns(ArrayList<Player> players) {
+        if (countActivePlayers(players) > 1) {
+            for (int i=1; i < players.size(); i++) {
+                runActivePlayerTurn(players.get(i));
+            }
+        }
+    }
+
+    private void runDealerTurn(Player dealer) {
+        while (dealer.getHandValue() < 17) {
+            dealer.drawCard(deck.getCard());
+        }
+        setDealerState(dealer);
+        Console.print(dealer.getName() + "'s final Hand: " + dealer.getHandAsString());
+        Console.print(dealer.getName() + "'s final Handvalue: " + dealer.getHandValue());
+    }
+
+    private void calculateResults(ArrayList<Player> players) {
+        createOrderedPlayerListWithoutBustedPlayers();
+
+    }
+    /* prepareRound() Methods */
+
+    public void resetPlayerState(ArrayList<Player> players) {
         for (Player player: players) {
             player.setPlayerState(PlayerState.ACTIVE);
         }
@@ -48,10 +74,7 @@ public class Round implements Console {
             Integer latentBet = players.get(i).getBankroll() + 1;
             while (latentBet > players.get(i).getBankroll()) {
                 Console.print(players.get(i).getName() + ", choose your bet: ");
-                latentBet = Console.getInteger();
-                if (latentBet > players.get(i).getBankroll()) {
-                    Console.print("No Valid Choice");
-                    }
+                latentBet = Console.getInteger(1,players.get(i).getBankroll());
                 }
             players.get(i).setBet(latentBet);
             }
@@ -74,45 +97,36 @@ public class Round implements Console {
     }
 
 
-    private void runPlayerTurn(Player player) {
-        switch (player.getPlayerState()) {
-            case ACTIVE:
-                consoleOutputForActivePlayer(player);
-                checkStay(player);
-                break;
-            case STAYED:
-                Console.print("Player " + player.getName() + "STAYS at " + player.getHandValue());
-                break;
-            case BUSTED:
-                Console.print("Player " + player.getName() + "is BUSTED at " + player.getHandValue());
-                break;
-            default:
-                Console.print("Unknown State");
-                break;
-        }
+    /* runAllPlayerTurns Methods */
+
+    private int countActivePlayers(ArrayList<Player> players) {
+        Integer counter = 0;
+        for (int i = 1; i < players.size(); i++) {
+            if (players.get(i).getPlayerState() == PlayerState.ACTIVE) {
+                counter++;
+            }
+        } return counter;
+    }
+
+    private void runActivePlayerTurn(Player player) {
         if (player.getPlayerState() == PlayerState.ACTIVE) {
+            consoleOutputForActivePlayer(player);
+            if (checkStay(player)) {
+                setStay(player);
+            }
             player.drawCard(deck.getCard());
             if (checkBust(player)) {
                 setBust(player);
-            };
-        } else {
-            Console.print("Next Player");
+            }
         }
+    }
 
-    }
-    private void runDealerTurn(ArrayList<Player> players) {
-        Player dealer = players.get(0);
-        Console.print(dealer.getName() + "'s Hand: " + dealer.getHandAsString());
-        Console.print(dealer.getName() + "'s Handvalue: " + dealer.getHandValue());
-        while (dealer.getHandValue() < 17) {
-            dealer.drawCard(deck.getCard());
-        }
-        if (checkBust(dealer)) {
-            setBust(dealer);
-        };
-        Console.print(dealer.getName() + "'s final Hand: " + dealer.getHandAsString());
-        Console.print(dealer.getName() + "'s final Handvalue: " + dealer.getHandValue());
-    }
+
+
+
+
+
+
     public void rankNonBustedPlayers(ArrayList<Player> players) {
         for (Player player : players) {
             if (player.getPlayerState() != PlayerState.BUSTED) {
@@ -169,6 +183,8 @@ public class Round implements Console {
         }
     }
 
+
+    /* runActivePlayerTurn Methods */
     private void consoleOutputForActivePlayer(Player player) {
         Console.print(player.getPlayerState() + " Player " + player.getName() + " ");
         Console.print(player.getName() + ", your Hand: " + player.getHandAsString());
@@ -176,22 +192,29 @@ public class Round implements Console {
         Console.print("Do you want to (h)it or (s)tay? >");
     }
 
-    private void checkStay(Player player) {
-        if ("s".equals(Console.getString().toLowerCase().substring(0, 1))) {
-            player.setPlayerState(PlayerState.STAYED);
-            outOfPlayCounter++;
-        }
+    /* Checker, Getter & Setter */
+    private Boolean checkStay(Player player) {
+        return "s".equals(Console.getString().toLowerCase().substring(0, 1));
+    }
+    private void setStay(Player player) {
+        player.setPlayerState(PlayerState.STAYED);
+        Console.print("You stay with " + player.getHandValue());
     }
     private Boolean checkBust(Player player) {
         return (player.getHandValue() > 21);
     }
-
     private void setBust(Player player) {
         player.setPlayerState(PlayerState.BUSTED);
-        outOfPlayCounter++;
         Console.print("You are BUSTED with " + player.getHandValue());
     }
 
+    private void setDealerState(Player dealer) {
+        if (checkBust(dealer)) {
+            setBust(dealer);
+        } else {
+            setStay(dealer);
+        }
+    }
 
 
     private boolean checkForSingleWinner(ArrayList<Player> playersByHandValue) {

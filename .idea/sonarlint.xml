@@ -3,6 +3,6 @@
   <component name="SonarLintProjectSettings">
     <option name="bindingEnabled" value="true" />
     <option name="projectKey" value="de.honzont.blackjack" />
-    <option name="serverId" value="local" />
+    <option name="serverId" value="lokal" />
   </component>
 </project>

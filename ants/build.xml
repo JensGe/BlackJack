@@ -40,9 +40,6 @@
         <javac srcdir="${src}" destdir="${bin}" />
     </target>
 
-
-
-
     <target name="test" depends="compile">
         <property name="junit.path" refid="junit.class.path"/>
         <echo message="JUnit ClassPath is: ${junit.path}"/>

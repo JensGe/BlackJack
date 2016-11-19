@@ -26,10 +26,12 @@ public class Round implements Console {
             }
         } while (outOfPlayCounter < game.players.size() - 1);
         runDealerTurn(game.players);
+        rankNonBustedPlayers(game.players);
         if (checkIfAllBusted(playersByHandValue)) {
-            rankNonBustedPlayers(game.players);
             setFinalPlayerStates(playersByHandValue, game.players);
             printScores(playersByHandValue);
+        } else {
+            Console.print("Everyone Busted.");
         }
         setBetsAndBankrolls(game.players);
         discardHands(game.players);
@@ -111,10 +113,6 @@ public class Round implements Console {
         Console.print(dealer.getName() + "'s final Hand: " + dealer.getHandAsString());
         Console.print(dealer.getName() + "'s final Handvalue: " + dealer.getHandValue());
     }
-    private Boolean checkIfAllBusted(ArrayList<Player> players) {
-        return (players.size()<1);
-    }
-
     public void rankNonBustedPlayers(ArrayList<Player> players) {
         for (Player player : players) {
             if (player.getPlayerState() != PlayerState.BUSTED) {
@@ -131,6 +129,9 @@ public class Round implements Console {
         for (Player player : playersByHandValue) {
             Console.print(player.getName() + " " + player.getHandValue());
         }
+    }
+    private Boolean checkIfAllBusted(ArrayList<Player> players) {
+        return (players.size()>0);
     }
     private void setFinalPlayerStates(ArrayList<Player> playersByHandValue, ArrayList<Player> players) {
         PlayerState drawOrWin;
@@ -155,7 +156,7 @@ public class Round implements Console {
             if (player.getPlayerState() == PlayerState.WINNER) {
                 player.setBankroll(player.getBankroll() + player.getBet());
 
-            } else if (player.getPlayerState() == PlayerState.LOOSER) {
+            } else if (player.getPlayerState() == PlayerState.LOOSER || player.getPlayerState() == PlayerState.BUSTED) {
                 player.setBankroll(player.getBankroll() - player.getBet());
 
             }

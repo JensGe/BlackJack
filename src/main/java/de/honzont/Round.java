@@ -9,6 +9,7 @@ import java.util.Collections;
 public class Round implements Console {
     private CardDeck deck = new CardDeck();
     private ArrayList<Player> nonBustedPlayers = new ArrayList<>();
+    private RoundState closingRoundSituation;
 
     /**
      * @param game
@@ -17,11 +18,11 @@ public class Round implements Console {
         prepareRound(game.players);
         runAllPlayerTurns(game.players);
         runDealerTurn(game.players.get(0));
-        calculateListOfResults(game.players);
+        calculateResults(game.players);
         presentResults();
+        cleanupRound();
 
 /* 
-        rankNonBustedPlayers(game.players);
         if (checkIfAllBusted(nonBustedPlayers)) {
             setFinalPlayerStates(nonBustedPlayers, game.players);
             printScores(nonBustedPlayers);
@@ -31,6 +32,8 @@ public class Round implements Console {
         setBetsAndBankrolls(game.players);
         discardHands(game.players); */
     }
+
+    /* 1. Round() Methods */
 
     private void prepareRound(ArrayList<Player> players) {
         resetPlayerState(players);
@@ -57,61 +60,19 @@ public class Round implements Console {
         Console.print(dealer.getName() + "'s final Handvalue: " + dealer.getHandValue());
     }
 
-    private void calculateListOfResults(ArrayList<Player> players) {
+    private void calculateResults(ArrayList<Player> players) {
         listNonBustedPlayers(players);
-        orderArrayList(nonBustedPlayers);
-        checkClosingRoundSituation(nonBustedPlayers, players);
-    }
+        orderArrayList();
+        closingRoundSituation = checkClosingRoundSituation(players);
+        assignPlayerStates(closingRoundSituation);
 
 
 
-    /* calculateListOfResults() Methods */
-    private void listNonBustedPlayers(ArrayList<Player> players) {
-        for (Player player : players) {
-            if (player.getPlayerState() != PlayerState.BUSTED) {
-                nonBustedPlayers.add(player);
-            }
-        }
-    }
-    private void orderArrayList(ArrayList<Player> nonBustedPlayers) {
-        Collections.sort(nonBustedPlayers, new PlayerComparator() {
-            @Override
-            public int compare(Player self, Player other) {
-                return super.compare(self, other);
-            }
-        });
-    }
-    private String checkClosingRoundSituation(ArrayList<Player> nonBustedPlayers, ArrayList<Player> players) {
-        String outcome;
-        if (checkIfAllBusted(nonBustedPlayers)) {
-            outcome = "All Busted";
-        }
-        if (checkForSingleWinner(nonBustedPlayers)) {
-            outcome = "One Player wins alone";
-        } else {
-            outcome = "More than one Player has the best Hand";
-        }
-        if (checkDealerHasTopHand(nonBustedPlayers, players)) {
-            outcome += ", one of them is the Dealer.";
-        } else {
-            outcome += ", the Dealer is not within.";
-        }
-        return outcome;
+
     }
 
 
-    private Boolean checkIfAllBusted(ArrayList<Player> nonBustedPlayers) {
-        return (nonBustedPlayers.size()==0);
-    }
-    private boolean checkForSingleWinner(ArrayList<Player> nonBustedPlayers) {
-        return nonBustedPlayers.size() == 1 ||
-                nonBustedPlayers.get(0).getHandValue() > nonBustedPlayers.get(1).getHandValue();
-    }
-    private boolean checkDealerHasTopHand(ArrayList<Player> nonBustedPlayers, ArrayList<Player> players) {
-        return nonBustedPlayers.get(0).getHandValue().equals(players.get(0).getHandValue());
-    }
-
-    /* prepareRound() Methods */
+    /* 2.1 prepareRound() Methods */
 
     public void resetPlayerState(ArrayList<Player> players) {
         for (Player player: players) {
@@ -147,7 +108,7 @@ public class Round implements Console {
     }
 
 
-    /* runAllPlayerTurns Methods */
+    /* 2.2 runAllPlayerTurns Methods */
 
     private int countActivePlayers(ArrayList<Player> players) {
         Integer counter = 0;
@@ -172,7 +133,96 @@ public class Round implements Console {
     }
 
 
+    /* 2.4 calculateResults() Methods */
 
+    private void listNonBustedPlayers(ArrayList<Player> players) {
+        for (Player player : players) {
+            if (player.getPlayerState() != PlayerState.BUSTED) {
+                nonBustedPlayers.add(player);
+            }
+        }
+    }
+
+    private void orderArrayList() {
+        Collections.sort(nonBustedPlayers, new PlayerComparator() {
+            @Override
+            public int compare(Player self, Player other) {
+                return super.compare(self, other);
+            }
+        });
+    }
+
+    private RoundState checkClosingRoundSituation(ArrayList<Player> players) {
+        if (checkIfAllBusted()) {
+            return RoundState.ALLBUSTED;
+        }
+        if (checkForSingleWinner() && checkDealerHasTopHand(players)) {
+            return RoundState.DEALERWINSALONE;
+        }
+        if (checkForSingleWinner() && !checkDealerHasTopHand(players)) {
+            return RoundState.PLAYERWINSALONE;
+        }
+        if (!checkForSingleWinner() && checkDealerHasTopHand(players)) {
+            return RoundState.DEALERPLAYERDRAW;
+        }
+        if (!checkForSingleWinner() && !checkDealerHasTopHand(players)) {
+            return RoundState.MULTIPLAYERWIN;
+        }
+        else {
+            return RoundState.UNKNOWN;
+        }
+    }
+
+    private void assignPlayerStates(RoundState closingRoundSituation) {
+        switch (closingRoundSituation) {
+            case ALLBUSTED:
+                assignAllBusted();
+                break;
+            case DEALERWINSALONE:
+                assignDealerWinsAlone();
+                break;
+            case PLAYERWINSALONE:
+                assignPlayerWinsAlone();
+                break;
+            case DEALERPLAYERDRAW:
+                assignDealerPlayerDraw();
+                break;
+            case MULTIPLAYERWIN:
+                assignMultiPlayerWin();
+                break;
+            default:
+                assignUnknownState();
+                break;
+        }
+    }
+
+
+    /* 2.2.2 runActivePlayerTurn() Methods */
+
+    private void consoleOutputForActivePlayer(Player player) {
+        Console.print(player.getPlayerState() + " Player " + player.getName() + " ");
+        Console.print(player.getName() + ", your Hand: " + player.getHandAsString());
+        Console.print("Your Handvalue is " + player.getHandValue());
+        Console.print("Do you want to (h)it or (s)tay? >");
+    }
+
+
+    /* 2.4.3 checkClosingRoundSituation() Methods */
+
+    private Boolean checkIfAllBusted() {
+        return (nonBustedPlayers.size()==0);
+    }
+
+    private boolean checkForSingleWinner() {
+        return nonBustedPlayers.size() == 1 ||
+                nonBustedPlayers.get(0).getHandValue() > nonBustedPlayers.get(1).getHandValue();
+    }
+
+    private boolean checkDealerHasTopHand(ArrayList<Player> players) {
+        return nonBustedPlayers.get(0).getHandValue().equals(players.get(0).getHandValue());
+    }
+
+    /* 2.4.4 assignPlayerStates() Methods */
 
 
 
@@ -215,13 +265,7 @@ public class Round implements Console {
     }
 
 
-    /* runActivePlayerTurn Methods */
-    private void consoleOutputForActivePlayer(Player player) {
-        Console.print(player.getPlayerState() + " Player " + player.getName() + " ");
-        Console.print(player.getName() + ", your Hand: " + player.getHandAsString());
-        Console.print("Your Handvalue is " + player.getHandValue());
-        Console.print("Do you want to (h)it or (s)tay? >");
-    }
+
 
     /* Checker, Getter & Setter */
     private Boolean checkStay(Player player) {
@@ -246,9 +290,6 @@ public class Round implements Console {
             setStay(dealer);
         }
     }
-
-
-
 
     private void setSingleWinner(ArrayList<Player> playersByHandValue) {
         playersByHandValue.get(0).setPlayerState(PlayerState.WINNER);

@@ -8,16 +8,21 @@
     <property name="bin" value="bin"/>
     <property name="lib" value="lib"/>
     <property name="dist"  location="dist"/>
-    <property name="main"  location="${src}/main/java/de/honzont"/>
-    <property name="test"  location="${src}/test/java/de/honzont"/>
+    <property name="srcmain" location="${src}/main/java/de/honzont"/>
+    <property name="srctest" location="${src}/test/java/de/honzont"/>
+    <property name="binmain"  location="${bin}/main/java/de/honzont"/>
+    <property name="bintest"  location="${bin}/test/java/de/honzont"/>
     <diagnostics taskname="test"/>
 
 
     <!-- JUnit classpath. -->
     <path id="junit.class.path">
         <fileset dir="${lib}" includes="**/*.jar"/>
-        <pathelement location="${main}"/>
-        <pathelement location="${test}"/>
+        <pathelement location="${srcmain}"/>
+        <pathelement location="${srctest}"/>
+        <pathelement location="${binmain}"/>
+        <pathelement location="${bintest}"/>
+        <pathelement location="${bin}"/>
     </path>
 
 
@@ -42,11 +47,11 @@
     <target name="test" depends="compile">
         <property name="junit.path" refid="junit.class.path"/>
         <echo message="JUnit ClassPath is: ${junit.path}"/>
-        <junit>
+        <junit haltonerror="yes" haltonfailure="yes">
             <classpath refid="junit.class.path"/>
-            <batchtest todir="test_error_reports" >
-                <fileset dir="${test}">
-                    <include name="**/*Test*"/>
+            <batchtest todir="test_error_reports">
+                <fileset dir="${bin}">
+                    <include name="*Test.class"/>
                 </fileset>
             </batchtest>
             <formatter type="plain"/>

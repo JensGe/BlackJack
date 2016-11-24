@@ -1,4 +1,4 @@
-<project name="BlackJackAnt" default="dist" basedir="..">
+<project name="BlackJackAnt" default="dist" basedir=".">
     <description>
         Simple Build with Ant
     </description>
@@ -8,46 +8,50 @@
     <property name="bin" value="bin"/>
     <property name="lib" value="lib"/>
     <property name="dist"  location="dist"/>
-    <property name="main"  location="${src}/main/java/de/honzont"/>
-    <property name="test"  location="${src}/test/java/de/honzont"/>
+    <property name="srcmain" location="${src}/main/java/de/honzont"/>
+    <property name="srctest" location="${src}/test/java/de/honzont"/>
+    <property name="binmain"  location="${bin}/main/java/de/honzont"/>
+    <property name="bintest"  location="${bin}/test/java/de/honzont"/>
     <diagnostics taskname="test"/>
+
 
     <!-- JUnit classpath. -->
     <path id="junit.class.path">
-        <fileset dir="${lib}/test" includes="*.jar"/>
-        <pathelement location="${main}"/>
-        <pathelement location="${test}"/>
+        <fileset dir="${lib}" includes="**/*.jar"/>
+        <pathelement location="${srcmain}"/>
+        <pathelement location="${srctest}"/>
+        <pathelement location="${binmain}"/>
+        <pathelement location="${bintest}"/>
+        <pathelement location="${bin}"/>
     </path>
 
 
     <target name="init">
         <!-- Clean Folder and Files -->
-        <delete>
-            <fileset dir="ants/error_reports">
-                <include name="*"/>
-            </fileset>
-        </delete>
+        <delete dir="test_error_reports"/>
+        <mkdir dir="test_error_reports"/>
         <delete dir="bin"/>
         <mkdir dir="${bin}"/>
 
+
         <!-- Create Buildnumber for Distributionfile-->
-        <buildnumber file="ants/build.number" />
+        <buildnumber file="build.number" />
 
     </target>
 
     <target name="compile" depends="init" description="compile the source">
         <!-- Compile Javacode from ${src} into ${build} -->
-        <javac srcdir="${src}" destdir="${bin}" />
+        <javac includeantruntime="false" srcdir="${src}" destdir="${bin}" classpathref="junit.class.path"/>
     </target>
 
     <target name="test" depends="compile">
         <property name="junit.path" refid="junit.class.path"/>
         <echo message="JUnit ClassPath is: ${junit.path}"/>
-        <junit>
+        <junit haltonerror="yes" haltonfailure="yes">
             <classpath refid="junit.class.path"/>
-            <batchtest todir="ants/error_reports" >
-                <fileset dir="${test}">
-                    <include name="**/*Test*"/>
+            <batchtest todir="test_error_reports">
+                <fileset dir="${bin}">
+                    <include name="*Test.class"/>
                 </fileset>
             </batchtest>
             <formatter type="plain"/>

@@ -28,6 +28,7 @@ public class Game implements Console {
         }
     }
 
+
     private void createGameMenu() {
         gamemenu.add("*******************");
         gamemenu.add("* (N)ew Round     *");
@@ -116,12 +117,8 @@ public class Game implements Console {
         for (int i = 1; i < players.size(); i++) {
             Console.print(i + " " + players.get(i).getName());
         }
-        Integer integerInput = Console.getInteger();
-        if (integerInput >= 1 && integerInput < players.size()) {
-            return players.get(integerInput);
-        } else {
-            return players.get(0);
-        }
+        Integer integerInput = Console.getInteger(1, players.size());
+        return players.get(integerInput);
     }
 
     private Boolean getGameActive() {

@@ -43,7 +43,7 @@ public class RoundTest {
         testplayerarraylist.get(0).setPlayerState(PlayerState.BUSTED);
         testplayerarraylist.get(1).setPlayerState(PlayerState.WINNER);
         testplayerarraylist.get(2).setPlayerState(PlayerState.DRAWER);
-        Round.setPlayersToActive(testplayerarraylist);
+        Round.resetPlayerState(testplayerarraylist);
         for (int i = 0; i < testplayerarraylist.size(); i++) {
             assertEquals(testplayerarraylist.get(i).getPlayerState(), PlayerState.ACTIVE );
         }

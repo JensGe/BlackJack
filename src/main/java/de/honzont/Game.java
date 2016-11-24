@@ -28,6 +28,7 @@ public class Game implements Console {
         }
     }
 
+
     private void createGameMenu() {
         gamemenu.add("*******************");
         gamemenu.add("* (N)ew Round     *");

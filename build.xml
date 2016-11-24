@@ -22,13 +22,11 @@
 
     <target name="init">
         <!-- Clean Folder and Files -->
-        <delete>
-            <fileset dir="test_error_reports">
-                <include name="*"/>
-            </fileset>
-        </delete>
+        <delete dir="test_error_reports"/>
+        <mkdir dir="test_error_reports"/>
         <delete dir="bin"/>
         <mkdir dir="${bin}"/>
+
 
         <!-- Create Buildnumber for Distributionfile-->
         <buildnumber file="build.number" />

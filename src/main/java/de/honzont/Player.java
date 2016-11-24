@@ -9,7 +9,6 @@ import java.util.List;
 public class Player {
     private Integer bankroll;
     private String name;
-    private Boolean isDealer = false;
     private ArrayList<Card> hand = new ArrayList<>();
     private Integer bet = 0;
     private PlayerState playerState = PlayerState.ACTIVE;
@@ -21,16 +20,12 @@ public class Player {
     }
     public Player() {
         this.name = "Dealer";
-        this.isDealer = true;
+        Boolean isDealer = true;
         this.bankroll = 0;
     }
 
     public void drawCard(Card card) {
         this.hand.add(card);
-    }
-
-    public List<Card> getHand() {
-        return hand;
     }
 
     public Integer getHandValue() {
@@ -72,15 +67,6 @@ public class Player {
     }
     public String getName() {
         return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Boolean getDealer() {
-        return isDealer;
-    }
-    public void setDealer(Boolean dealer) {
-        isDealer = dealer;
     }
     public Integer getBet() {
         return bet;

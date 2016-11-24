@@ -53,12 +53,12 @@ public class PlayerTest {
     }
 
     /**
-     * Test if drawCard()
+     * Test if drawCard() works
      */
     @Test
     public void drawTest() {
         testPlayer.drawCard(testCard1);
-        assertEquals(testCard1, testPlayer.getHand().get(0));
+        assertEquals(testCard1.getName(), testPlayer.getHandAsString());
     }
 
     @Test

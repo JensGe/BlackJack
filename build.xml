@@ -14,7 +14,6 @@
     <property name="bintest"  location="${bin}/test/java/de/honzont"/>
     <diagnostics taskname="test"/>
 
-
     <!-- JUnit classpath. -->
     <path id="junit.class.path">
         <fileset dir="${lib}" includes="**/*.jar"/>
@@ -25,18 +24,15 @@
         <pathelement location="${bin}"/>
     </path>
 
-
-    <target name="init">
+    <target name="init" description="Clean Folder and Create Buildnumber" >
         <!-- Clean Folder and Files -->
         <delete dir="test_error_reports"/>
         <mkdir dir="test_error_reports"/>
         <delete dir="bin"/>
         <mkdir dir="${bin}"/>
 
-
         <!-- Create Buildnumber for Distributionfile-->
         <buildnumber file="build.number" />
-
     </target>
 
     <target name="compile" depends="init" description="compile the source">
@@ -58,10 +54,6 @@
         </junit>
     </target>
 
-    <target name="upload" depends="test" description="Commit to Git Develop Branch">
-        <!--TODO -->
-    </target>
-
     <target name="dist" depends="test" description="generate the distribution">
         <!-- Put everything in ${bin} into the BlackJack-${DSTAMP}.jar file -->
         <jar jarfile="dist/lib/BlackJack-${version}${build.number}.jar" basedir="bin">
@@ -70,6 +62,4 @@
             </manifest>
         </jar>
     </target>
-
-
 </project>

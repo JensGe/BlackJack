@@ -41,7 +41,7 @@ public class Game implements Console {
         players.add(new Player());
     }
     private void printGameMenu() {
-        gamemenu.forEach(Console::print);
+        gamemenu.forEach((output) -> Console.print(output));
     }
     private static String getGameMenuSelection() {
         String selection = "";

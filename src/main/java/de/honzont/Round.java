@@ -53,7 +53,7 @@ public class Round implements Console {
 
     private void calculateResults(ArrayList<Player> players) {
         createNewPlayerArray(players);
-        sortNonBustedPlayers();
+        sortRoundPlayers();
         checkClosingRoundSituation(players);
         assignPlayerStates(players);
         payOut();
@@ -143,7 +143,7 @@ public class Round implements Console {
         }
     }
 
-    private void sortNonBustedPlayers() {
+    private void sortRoundPlayers() {
         Collections.sort(roundPlayers, new PlayerComparator() {
             @Override
             public int compare(Player self, Player other) {

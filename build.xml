@@ -1,4 +1,4 @@
-<project name="BlackJackAnt" default="dist" basedir="..">
+<project name="BlackJackAnt" default="dist" basedir=".">
     <description>
         Simple Build with Ant
     </description>
@@ -23,7 +23,7 @@
     <target name="init">
         <!-- Clean Folder and Files -->
         <delete>
-            <fileset dir="ants/error_reports">
+            <fileset dir="test_error_reports">
                 <include name="*"/>
             </fileset>
         </delete>
@@ -31,7 +31,7 @@
         <mkdir dir="${bin}"/>
 
         <!-- Create Buildnumber for Distributionfile-->
-        <buildnumber file="ants/build.number" />
+        <buildnumber file="build.number" />
 
     </target>
 
@@ -45,7 +45,7 @@
         <echo message="JUnit ClassPath is: ${junit.path}"/>
         <junit>
             <classpath refid="junit.class.path"/>
-            <batchtest todir="ants/error_reports" >
+            <batchtest todir="test_error_reports" >
                 <fileset dir="${test}">
                     <include name="**/*Test*"/>
                 </fileset>

@@ -14,15 +14,11 @@
 
 
     <!-- JUnit classpath. -->
-    <junit>
-        <classpath>
-            <fileset dir="${lib}/test">
-                <include name = "**/*.jar"/>
-            </fileset>
-            <pathelement location="${main}"/>
-            <pathelement location="${test}"/>
-        </classpath>
-    </junit>
+    <path id="junit.class.path">
+        <fileset dir="${lib}" includes="**/*.jar"/>
+        <pathelement location="${main}"/>
+        <pathelement location="${test}"/>
+    </path>
 
 
     <target name="init">
@@ -40,7 +36,7 @@
 
     <target name="compile" depends="init" description="compile the source">
         <!-- Compile Javacode from ${src} into ${build} -->
-        <javac srcdir="${src}" destdir="${bin}" />
+        <javac includeantruntime="false" srcdir="${src}" destdir="${bin}" classpathref="junit.class.path"/>
     </target>
 
     <target name="test" depends="compile">

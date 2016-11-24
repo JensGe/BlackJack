@@ -12,12 +12,17 @@
     <property name="test"  location="${src}/test/java/de/honzont"/>
     <diagnostics taskname="test"/>
 
+
     <!-- JUnit classpath. -->
-    <path id="junit.class.path">
-        <fileset dir="${lib}/test" includes="*.jar"/>
-        <pathelement location="${main}"/>
-        <pathelement location="${test}"/>
-    </path>
+    <junit>
+        <classpath>
+            <fileset dir="${lib}/test">
+                <include name = "**/*.jar"/>
+            </fileset>
+            <pathelement location="${main}"/>
+            <pathelement location="${test}"/>
+        </classpath>
+    </junit>
 
 
     <target name="init">

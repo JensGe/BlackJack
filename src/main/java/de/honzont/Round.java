@@ -237,6 +237,7 @@ public class Round implements Console {
         return roundPlayers.get(0).getHandValue().equals(players.get(0).getHandValue());
     }
 
+
     /* 1.4.4 assignPlayerStates() Methods */
 
     private void assignAllBusted(ArrayList<Player> players) {
@@ -276,7 +277,6 @@ public class Round implements Console {
         }
     }
 
-
     /* Checker, Getter & Setter */
     private Boolean checkStay(Player player) {
         return "s".equals(Console.getString().toLowerCase().substring(0, 1));
@@ -303,6 +303,7 @@ public class Round implements Console {
             setStay(dealer);
         }
     }
+
 
     private void setAllPlayerStates(ArrayList<Player> players, PlayerState playerState) {
         for (Player player : players) {

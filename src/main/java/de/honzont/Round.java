@@ -277,7 +277,6 @@ public class Round implements Console {
         }
     }
 
-
     /* Checker, Getter & Setter */
     private Boolean checkStay(Player player) {
         return "s".equals(Console.getString().toLowerCase().substring(0, 1));
@@ -304,6 +303,7 @@ public class Round implements Console {
             setStay(dealer);
         }
     }
+
 
     private void setAllPlayerStates(ArrayList<Player> players, PlayerState playerState) {
         for (Player player : players) {

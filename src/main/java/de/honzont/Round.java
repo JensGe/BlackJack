@@ -237,7 +237,6 @@ public class Round implements Console {
         return roundPlayers.get(0).getHandValue().equals(players.get(0).getHandValue());
     }
 
-
     /* 1.4.4 assignPlayerStates() Methods */
 
     private void assignAllBusted(ArrayList<Player> players) {

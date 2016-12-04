@@ -279,7 +279,6 @@ public class Round implements Console {
         }
     }
 
-
     /* Checker, Getter & Setter */
 
     private Boolean checkStay(Player player) {
@@ -307,6 +306,7 @@ public class Round implements Console {
             setStay(dealer);
         }
     }
+
 
     private void setAllPlayerStates(ArrayList<Player> players, PlayerState playerState) {
         for (Player player : players) {

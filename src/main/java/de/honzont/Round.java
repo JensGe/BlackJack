@@ -73,6 +73,7 @@ public class Round implements Console {
         discardHands();
     }
 
+
     /* 1.1 prepareRound() Methods */
 
     public static void resetPlayerState(ArrayList<Player> players) {
@@ -271,6 +272,7 @@ public class Round implements Console {
     }
 
 
+
     private void discardHands() {
         for (Player player : roundPlayers) {
             player.clearHand();
@@ -279,6 +281,7 @@ public class Round implements Console {
 
 
     /* Checker, Getter & Setter */
+
     private Boolean checkStay(Player player) {
         return "s".equals(Console.getString().toLowerCase().substring(0, 1));
     }

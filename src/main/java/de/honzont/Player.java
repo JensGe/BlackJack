@@ -10,6 +10,7 @@ public class Player {
     private Integer bankroll;
     private String name;
     private ArrayList<Card> hand = new ArrayList<>();
+
     private Integer bet = 0;
     private PlayerState playerState = PlayerState.ACTIVE;
 

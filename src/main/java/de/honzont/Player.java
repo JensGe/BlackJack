@@ -21,7 +21,6 @@ public class Player {
     }
     public Player() {
         this.name = "Dealer";
-        Boolean isDealer = true;
         this.bankroll = 0;
     }
 
@@ -51,7 +50,7 @@ public class Player {
             handStringBuilder.append(hand.get(i).getName());
             handStringBuilder.append(", ");
         }
-        if (hand.size() > 0) {
+        if (!hand.isEmpty()) {
             handStringBuilder.append(hand.get(hand.size()-1).getName());
         }
         return handStringBuilder.toString();

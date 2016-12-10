@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static main.java.de.honzont.Round.checkForSingleWinner;
+import static main.java.de.honzont.Round.checkIfAllBusted;
 import static org.junit.Assert.*;
 
 /**
@@ -50,5 +52,37 @@ public class RoundTest {
 
     }
 
+    @Test
+    public void countActivePlayersTest() {
+        Integer expectedNumber = 2;
+        Integer actualNumber = Round.countActivePlayers(testplayerarraylist);
+        assertEquals(expectedNumber, actualNumber);
+    }
+
+    @Test
+    public void checkIfAllBustedTest() {
+        testplayerarraylist.get(0).setPlayerState(PlayerState.BUSTED);
+        testplayerarraylist.get(1).setPlayerState(PlayerState.BUSTED);
+        testplayerarraylist.get(2).setPlayerState(PlayerState.BUSTED);
+        assertEquals(true, checkIfAllBusted(testplayerarraylist));
+    }
+
+    @Test
+    public void checkForSingleWinnerTest1() {
+        testplayerarraylist.get(0).drawCard(testCard3);
+        testplayerarraylist.get(0).drawCard(testCard4);
+        testplayerarraylist.get(1).drawCard(testCard1);
+        testplayerarraylist.get(1).drawCard(testCard2);
+        testplayerarraylist.get(2).drawCard(testCard5);
+        assertEquals(true, checkForSingleWinner(testplayerarraylist));
+    }
+
+    @Test
+    public void checkForSingleWinnerTest2() {
+        testplayerarraylist.get(0).drawCard(testCard2);
+        testplayerarraylist.get(1).drawCard(testCard3);
+        testplayerarraylist.get(2).drawCard(testCard4);
+        assertEquals(false, checkForSingleWinner(testplayerarraylist));
+    }
 
 }

@@ -35,8 +35,8 @@ public class Round implements Console {
     }
 
     private void runAllPlayerTurns(ArrayList<Player> players) {
-        if (countActivePlayers(players) > 1) {
-            for (int i = 1; i < players.size(); i++) {
+        if (countActivePlayers(players) > 0) {
+            for (int i = 1; i <= countActivePlayers(players); i++) {
                 runActivePlayerTurn(players.get(i));
             }
         }
@@ -54,7 +54,7 @@ public class Round implements Console {
     private void calculateResults(ArrayList<Player> players) {
         createNewPlayerArray(players);
         sortRoundPlayers();
-        checkClosingRoundSituation(players);
+        checkClosingRoundSituation(players, roundPlayers);
         assignPlayerStates(players);
         payOut();
         clearBets();
@@ -62,6 +62,7 @@ public class Round implements Console {
 
     private void presentResults() {
         Console.print("Round Results: ");
+        Console.print("Situation: " + closingRoundSituation);
         for (Player player : roundPlayers) {
             Console.print(player.getName() + " is "
                     + player.getPlayerState() + " with "
@@ -112,7 +113,7 @@ public class Round implements Console {
 
     /* 1.2 runAllPlayerTurns Methods */
 
-    private int countActivePlayers(ArrayList<Player> players) {
+    public static int countActivePlayers(ArrayList<Player> players) {
         Integer counter = 0;
         for (int i = 1; i < players.size(); i++) {
             if (players.get(i).getPlayerState() == PlayerState.ACTIVE) {
@@ -123,14 +124,16 @@ public class Round implements Console {
     }
 
     private void runActivePlayerTurn(Player player) {
-        if (player.getPlayerState() == PlayerState.ACTIVE) {
+        while (player.getPlayerState() == PlayerState.ACTIVE) {
             consoleOutputForActivePlayer(player);
             if (checkStay(player)) {
                 setStay(player);
+                continue;
             }
             player.drawCard(deck.getCard());
             if (checkBust(player)) {
                 setBust(player);
+                continue;
             }
         }
     }
@@ -153,22 +156,23 @@ public class Round implements Console {
         });
     }
 
-    private void checkClosingRoundSituation(ArrayList<Player> players) {
-        if (checkIfAllBusted()) {
+    private void checkClosingRoundSituation(ArrayList<Player> players, ArrayList<Player> roundplayers) {
+        if (checkIfAllBusted(players)) {
             closingRoundSituation = RoundState.ALLBUSTED;
         }
-        if (checkForSingleWinner() && checkDealerHasTopHand(players)) {
+        else if (checkForSingleWinner(roundplayers) && checkDealerHasTopHand(players, roundplayers)) {
             closingRoundSituation = RoundState.DEALERWINSALONE;
         }
-        if (checkForSingleWinner() && !checkDealerHasTopHand(players)) {
+        else if (checkForSingleWinner(roundplayers) && !checkDealerHasTopHand(players, roundplayers)) {
             closingRoundSituation = RoundState.PLAYERWINSALONE;
         }
-        if (!checkForSingleWinner() && checkDealerHasTopHand(players)) {
+        else if (!checkForSingleWinner(roundplayers) && checkDealerHasTopHand(players, roundplayers)) {
             closingRoundSituation = RoundState.DEALERPLAYERDRAW;
         }
-        if (!checkForSingleWinner() && !checkDealerHasTopHand(players)) {
+        else if (!checkForSingleWinner(roundplayers) && !checkDealerHasTopHand(players, roundplayers)) {
             closingRoundSituation = RoundState.MULTIPLAYERWIN;
-        } else {
+        }
+        else {
             closingRoundSituation = RoundState.UNKNOWN;
         }
     }
@@ -176,7 +180,7 @@ public class Round implements Console {
     private void assignPlayerStates(ArrayList<Player> players) {
         switch (closingRoundSituation) {
             case ALLBUSTED:
-                assignAllBusted(players);
+                assignAllLooser(players);
                 break;
             case DEALERWINSALONE:
                 assignDealerWinsAlone(players);
@@ -225,24 +229,24 @@ public class Round implements Console {
 
     /* 1.4.3 checkClosingRoundSituation() Methods */
 
-    private Boolean checkIfAllBusted() {
-        return (roundPlayers.size() == 0);
+    public static Boolean checkIfAllBusted(ArrayList<Player> players) {
+        return (bustedPlayerCount(players) == players.size());
     }
 
-    private boolean checkForSingleWinner() {
-        return roundPlayers.size() == 1 ||
-                roundPlayers.get(0).getHandValue() > roundPlayers.get(1).getHandValue();
+    public static boolean checkForSingleWinner(ArrayList<Player> roundplayers) {
+        return roundplayers.size() == 1 ||
+                roundplayers.get(0).getHandValue() > roundplayers.get(1).getHandValue();
     }
 
-    private boolean checkDealerHasTopHand(ArrayList<Player> players) {
-        return roundPlayers.get(0).getHandValue().equals(players.get(0).getHandValue());
+    private boolean checkDealerHasTopHand(ArrayList<Player> players, ArrayList<Player> roundplayers) {
+        return roundplayers.get(0).getHandValue().equals(players.get(0).getHandValue());
     }
 
 
     /* 1.4.4 assignPlayerStates() Methods */
 
-    private void assignAllBusted(ArrayList<Player> players) {
-        setAllPlayerStates(players, PlayerState.BUSTED);
+    private void assignAllLooser(ArrayList<Player> players) {
+        setAllPlayerStates(players, PlayerState.LOOSER);
     }
 
     private void assignDealerWinsAlone(ArrayList<Player> players) {
@@ -280,6 +284,16 @@ public class Round implements Console {
     }
 
     /* Checker, Getter & Setter */
+
+    private static int bustedPlayerCount(ArrayList<Player> players) {
+        Integer counter = 0;
+        for (Player player : players) {
+            if (player.getPlayerState() == PlayerState.BUSTED) {
+                counter++;
+            }
+        }
+        return counter;
+    }
 
     private Boolean checkStay(Player player) {
         return "s".equals(Console.getString().toLowerCase().substring(0, 1));

@@ -1,4 +1,4 @@
-<project name="BlackJackAnt" default="dist" basedir=".">
+<project name="BlackJackAnt" default="start" basedir=".">
     <description>
         Simple Build with Ant
     </description>
@@ -62,4 +62,14 @@
             </manifest>
         </jar>
     </target>
+
+    <target name="start" depends="dist" description="open latest jar in cmd">
+        <exec executable="C:\Windows\System32\cmd.exe" spawn="true" dir="dist\lib">
+            <arg value="/K"/>
+            <arg value="start"/>
+            <arg value="run.bat"/>
+            <arg value="BlackJack-${version}${build.number}.jar"/>
+        </exec>
+    </target>
+
 </project>

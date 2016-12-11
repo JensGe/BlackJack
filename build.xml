@@ -3,7 +3,7 @@
         Simple Build with Ant
     </description>
 
-    <property name="version" value="0.1."/>
+    <property name="version" value="0.2."/>
     <property name="src" value="src"/>
     <property name="bin" value="bin"/>
     <property name="lib" value="lib"/>

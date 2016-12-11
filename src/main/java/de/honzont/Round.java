@@ -35,8 +35,8 @@ public class Round implements Console {
     }
 
     private void runAllPlayerTurns(ArrayList<Player> players) {
-        if (countActivePlayers(players) > 0) {
-            for (int i = 1; i <= countActivePlayers(players); i++) {
+        while (countActivePlayers(players) > 0) {
+            for (int i = 1; i < players.size(); i++) {
                 runActivePlayerTurn(players.get(i));
             }
         }
@@ -54,11 +54,13 @@ public class Round implements Console {
     private void calculateResults(ArrayList<Player> players) {
         createNewPlayerArray(players);
         sortRoundPlayers();
+        addBustedToRoundPlayers(players);
         checkClosingRoundSituation(players, roundPlayers);
         assignPlayerStates(players);
         payOut();
         clearBets();
     }
+
 
     private void presentResults() {
         Console.print("Round Results: ");
@@ -124,16 +126,16 @@ public class Round implements Console {
     }
 
     private void runActivePlayerTurn(Player player) {
-        while (player.getPlayerState() == PlayerState.ACTIVE) {
+        if (player.getPlayerState() == PlayerState.ACTIVE) {
             consoleOutputForActivePlayer(player);
             if (checkStay(player)) {
                 setStay(player);
-                continue;
             }
+        }
+        if (player.getPlayerState() == PlayerState.ACTIVE) {
             player.drawCard(deck.getCard());
             if (checkBust(player)) {
                 setBust(player);
-                continue;
             }
         }
     }
@@ -143,7 +145,10 @@ public class Round implements Console {
 
     private void createNewPlayerArray(ArrayList<Player> players) {
         for (Player player : players) {
-            roundPlayers.add(player);
+            if (player.getPlayerState() != PlayerState.BUSTED) {
+                roundPlayers.add(player);
+            }
+
         }
     }
 
@@ -154,6 +159,15 @@ public class Round implements Console {
                 return super.compare(self, other);
             }
         });
+    }
+
+    private void addBustedToRoundPlayers(ArrayList<Player> players) {
+        for (Player player : players) {
+            if (player.getPlayerState() == PlayerState.BUSTED) {
+                roundPlayers.add(player);
+            }
+
+        }
     }
 
     private void checkClosingRoundSituation(ArrayList<Player> players, ArrayList<Player> roundplayers) {

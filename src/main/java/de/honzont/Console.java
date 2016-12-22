@@ -10,8 +10,6 @@ import java.util.logging.Logger;
  */
 interface Console {
 
-
-
     static void print(String output) {
         System.out.print("BlackJack > " + output + '\n');
     }
